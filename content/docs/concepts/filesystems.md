@@ -35,7 +35,7 @@ Or in one step from macOS, for your Linux home directory:
 $ open "$(msl --cd ~ -e mslpath -a -w .)"
 ```
 
-`~/.msl/distros` is there only while the VM runs. If it's empty, start any distribution to bring it back.
+`~/.msl/distros` is there only while the VM runs. If it's empty, start any distribution to bring it back. It lists only distributions whose disk is attached to the VM. With more than 16 distributions, one you haven't used for a while can be missing; run it and it comes back.
 
 ## Filename and directory case sensitivity
 

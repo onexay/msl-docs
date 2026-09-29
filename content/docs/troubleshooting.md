@@ -10,7 +10,7 @@ Start with the tools below, then look for your problem in the sections that foll
 
 | Tool | What it tells you |
 |---|---|
-| `msl --status` | The default distribution, the VM's effective settings (memory, CPUs, kernel, networking, idle timeouts), the disk's size and free space, and any `~/.mslconfig` changes waiting for a restart. |
+| `msl --status` | The default distribution, the VM's effective settings (memory, CPUs, kernel, networking, idle timeouts), how much the distributions' disks use on macOS, whether nested virtualization is on, and any `~/.mslconfig` changes waiting for a restart. |
 | `msl --version` | The MSL, kernel and macOS versions. |
 | `~/Library/Application Support/msl/msld.log` | The service's log: VM starts and stops, idle timeouts, port forwarding, errors. |
 | `~/Library/Application Support/msl/console.log` | The VM's console output, including the Linux kernel's messages. |
@@ -48,6 +48,8 @@ See [systemd]({{< relref "/docs/concepts/systemd" >}}) and [Advanced settings co
 
 **`~/.msl/distros` is empty.** The folders there are mounts that exist only while the VM runs. Start any distribution, for example with `msl -e true`, and they come back.
 
+**A distribution is missing from `~/.msl/distros`.** The VM has 16 disk slots. With more distributions than that, a stopped distribution used longest ago gives up its slot, and its folder goes. Run the distribution, for example with `msl -d <Distro> -e true`, and it's back.
+
 **A build is slow, or file names clash, under `/mnt/macos`.** Files under `/mnt/macos` live on macOS: access is slower than the distribution's own disk, and names are usually case-insensitive. Work in your Linux home directory instead. See [Working across file systems]({{< relref "/docs/concepts/filesystems" >}}).
 
 **A path from an old script doesn't exist.** MSL 0.1.7 renamed `/mnt/mac` to `/mnt/macos`, and the `MSL_MAC_*` variables to `MSL_MACOS_*`. There's no compatibility link.
@@ -60,16 +62,18 @@ See [systemd]({{< relref "/docs/concepts/systemd" >}}) and [Advanced settings co
 
 ## Disk space
 
-**`data.img` stays large after deleting files.** Deleting files frees space inside the disk, not on macOS. MSL hands freed space back when the VM shuts down; to do it now, run `msl --manage <Distro> --compact`.
+**A distribution's `ext4.img` stays large after deleting files.** Deleting files frees space inside the disk, not on macOS. MSL hands freed space back when the VM shuts down; to do it now, run `msl --manage <Distro> --compact`.
 
-**A distribution runs out of space.** All distributions share one disk. `msl --status` shows its size and what's free. Grow it:
+**A distribution runs out of space.** Each distribution has its own disk. `df -h /` in the distribution shows what's free. Stop the distribution and grow its disk:
 
 ```console
-$ msl --shutdown
+$ msl --terminate Ubuntu
 $ msl --manage Ubuntu --resize 512GB
 ```
 
-If `msl --status` warns that macOS is nearly out of space, free space on macOS first: the disk is sparse, so the distributions can't see that macOS has run out, and their writes fail when it does. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
+A distribution from MSL 0.1.11 or earlier is still on the shared `data.img`; growing that needs every distribution stopped (`msl --shutdown`), or move the distribution to a disk of its own with `msl --manage <Distro> --move <folder>`.
+
+If `msl --status` warns that macOS is nearly out of space, free space on macOS first: the disks are sparse, so the distributions can't see that macOS has run out, and their writes fail when it does. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
 
 ## VS Code
 

@@ -57,7 +57,7 @@ MSL creates these the first time you use it:
 
 | What | Where |
 |---|---|
-| Distributions and state | `~/Library/Application Support/msl/`: `data.img`, the one sparse disk for all distributions, plus `registry.json`, `msld.log` and the service's sockets |
+| Distributions and state | `~/Library/Application Support/msl/`: each distribution's sparse disk, `distros/<id>/ext4.img` (unless you chose another location), plus `registry.json`, `msld.log` and the service's sockets |
 | Distribution files in Finder | `~/.msl/distros/<distro>`, while the VM runs |
 | Downloads | `~/Library/Caches/msl/`: distribution images, and the VS Code Server for your IDE's version |
 | VM settings | `~/.mslconfig`, only if you create it |

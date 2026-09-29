@@ -1,7 +1,7 @@
 ---
 title: Import any Linux distribution
 weight: 1
-description: Import an arm64 Linux root filesystem as an MSL distribution with msl --import, and back up or move distributions with --export.
+description: Import an arm64 Linux root filesystem or disk image as an MSL distribution with msl --import, and back up or move distributions with --export.
 ---
 
 `msl --install` covers the distributions in Microsoft's WSL list. To use anything else, import its root filesystem from a tar file with `msl --import`, the same command WSL uses.
@@ -33,10 +33,10 @@ $ msl -d MyDistro
 | Argument | Meaning |
 |---|---|
 | `<Distro>` | The name of the new distribution. It must be unique. |
-| `<InstallLocation>` | Accepted and recorded for compatibility with WSL. It doesn't change where the files go: every distribution is a directory on MSL's shared disk. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}). |
+| `<InstallLocation>` | The folder for the distribution's disk, `ext4.img`. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}). |
 | `<FileName>` | The tar file, plain or compressed with gzip, xz or zstd; MSL detects which. Use `-` to read it from standard input. |
 
-`--version 2` is accepted. `--vhd` isn't supported, because MSL has no per-distribution disk images.
+`--version 2` is accepted. With `--vhd`, `<FileName>` is a raw ext4 disk image instead of a tar file; see [Export and import disk images]({{< relref "/docs/how-to/disk-space#export-and-import-disk-images" >}}).
 
 You can pipe an export straight into an import, for example to clone a distribution:
 
@@ -90,4 +90,6 @@ $ msl --export Ubuntu ~/Backups/ubuntu.tar.xz --format tar.xz
 
 `--format` is `tar` (the default), `tar.gz` or `tar.xz`. Use `-` as the file name to write to standard output.
 
-To move a distribution to another Mac, export it, copy the file, and import it there under the same name. `msl --manage <Distro> --move` isn't supported, because all distributions share one disk.
+`--export --vhd` copies the distribution's whole disk instead, as a raw ext4 image that `--import --vhd` or `--import-in-place` registers again. See [Export and import disk images]({{< relref "/docs/how-to/disk-space#export-and-import-disk-images" >}}).
+
+To move a distribution to another Mac, export it, copy the file, and import it there under the same name. To move it to another folder or drive on the same Mac, use `msl --manage <Distro> --move <folder>`; see [Move a distribution]({{< relref "/docs/how-to/disk-space#move-a-distribution" >}}).

@@ -28,13 +28,14 @@ Distributions are isolated from each other with Linux namespaces, as in WSL 2.
 
 | Shared by all distributions | Separate for each distribution |
 |---|---|
-| The kernel, memory and processors | The file system (root directory and mounts) |
+| The kernel, memory and processors | The file system: its own disk, `ext4.img`, and its own mounts |
 | The network: one IP address and one `localhost` | Processes and process IDs |
-| The disk, `data.img` (each distribution is a directory on it) | Hostname |
+| The macOS file system at `/mnt/macos` | Hostname |
 | Disks attached with `msl --mount`, at `/mnt/msl` | Control groups, and init (systemd or MSL's) |
-| The macOS file system at `/mnt/macos` | |
 
 Because a distribution is a set of namespaces rather than a VM, it starts in milliseconds once the VM is up. Isolation between distributions is the same as in WSL 2: good enough to keep them from getting in each other's way, but weaker than separate VMs.
+
+The VM has 16 disk slots, because Virtualization.framework can't add a disk to a running VM. `msld` attaches every distribution's disk when the VM starts, and a distribution's disk when you use it. With all slots taken, the stopped distribution used longest ago gives its slot up. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
 
 ## Starting and stopping
 
@@ -58,13 +59,18 @@ MSL runs its own build of Linux, from [msl-kernel](https://github.com/onexay/msl
 
 The kernel uses 16 KiB memory pages, like the Mac itself, where most Arm Linux systems use 4 KiB. With 4 KiB pages, a Virtualization.framework bug corrupts the VM's memory when macOS runs short of memory ([#48](https://github.com/onexay/msl/issues/48)). Distribution packages work with 16 KiB pages; a program built on the assumption of 4 KiB pages may not. `getconf PAGESIZE` prints `16384`. See [Troubleshooting]({{< relref "/docs/troubleshooting" >}}).
 
+With `nestedVirtualization` on (the default) and a Mac with an M3 chip or later, the VM can run virtual machines of its own: MSL's kernel has KVM built in, and `/dev/kvm` exists in every distribution.
+
+The VM keeps one machine identifier across boots, and its own `/etc/machine-id` is that identifier's UUID. Distributions keep their own `/etc/machine-id`.
+
 `kernel` in `~/.mslconfig` boots a kernel of your own instead.
 
 ## Where MSL keeps its state
 
 | What | Where on macOS |
 |---|---|
-| Distributions (one sparse disk for all of them), the list of distributions, logs and sockets | `~/Library/Application Support/msl/` |
+| Distributions' disks | `~/Library/Application Support/msl/distros/<id>/ext4.img`, or the location you chose |
+| The list of distributions, the machine identifier, logs and sockets | `~/Library/Application Support/msl/` |
 | Distribution files, while the VM runs | `~/.msl/distros/<distro>` |
 | Downloaded images and the VS Code Server | `~/Library/Caches/msl/` |
 | VM settings | `~/.mslconfig`, if you create it |
