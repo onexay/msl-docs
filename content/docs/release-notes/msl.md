@@ -7,9 +7,9 @@ description: What changed in each release of MSL, newest first.
 
 What changed in each MSL release, newest first. Update to the latest release with `msl --update`. Changes that can break a script or a habit are marked **Breaking**. Each version links to its GitHub release, which has the downloads and checksums.
 
-## Unreleased
+## 0.2.0
 
-Not released yet; these changes are on `main`.
+29 September 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.2.0) · kernel `kernel-6.18.15-msl-a1a22bd`
 
 **Added**
 
