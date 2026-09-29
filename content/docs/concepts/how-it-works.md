@@ -59,7 +59,7 @@ MSL runs its own build of Linux, from [msl-kernel](https://github.com/onexay/msl
 
 The kernel uses 16 KiB memory pages, like the Mac itself, where most Arm Linux systems use 4 KiB. With 4 KiB pages, a Virtualization.framework bug corrupts the VM's memory when macOS runs short of memory ([#48](https://github.com/onexay/msl/issues/48)). Distribution packages work with 16 KiB pages; a program built on the assumption of 4 KiB pages may not. `getconf PAGESIZE` prints `16384`. See [Troubleshooting]({{< relref "/docs/troubleshooting" >}}).
 
-With `nestedVirtualization` on (the default) and a Mac with an M3 chip or later, the VM can run virtual machines of its own: `/dev/kvm` exists when the kernel has KVM.
+With `nestedVirtualization` on (the default) and a Mac with an M3 chip or later, the VM can run virtual machines of its own: MSL's kernel has KVM built in, and `/dev/kvm` exists in every distribution.
 
 The VM keeps one machine identifier across boots, and its own `/etc/machine-id` is that identifier's UUID. Distributions keep their own `/etc/machine-id`.
 

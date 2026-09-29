@@ -36,7 +36,7 @@ It uses Apple's Virtualization.framework, which is part of macOS, and nothing el
 
 ### Can I run virtual machines inside MSL?
 
-On a Mac with an M3 chip or later, MSL turns on nested virtualization, so `/dev/kvm` exists in the VM when its kernel has KVM. `nestedVirtualization = false` in `~/.mslconfig` turns it off, as in WSL, and `msl --status` shows whether it's on. See [Advanced settings configuration]({{< relref "/docs/concepts/msl-config#main-settings" >}}).
+On a Mac with an M3 chip or later, MSL turns on nested virtualization, so `/dev/kvm` exists in every distribution: MSL's kernel has KVM built in (a custom kernel needs it too). `nestedVirtualization = false` in `~/.mslconfig` turns it off, as in WSL, and `msl --status` shows whether it's on. See [Advanced settings configuration]({{< relref "/docs/concepts/msl-config#main-settings" >}}).
 
 ### Can I access the GPU?
 

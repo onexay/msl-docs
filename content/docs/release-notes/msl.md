@@ -15,7 +15,7 @@ Not released yet; these changes are on `main`.
 
 - Each new distribution gets its own disk, a sparse `ext4.img` in its install location, like WSL's `ext4.vhdx` ([#50](https://github.com/onexay/msl/issues/50)). It's 256 GB by default, or the size of the macOS disk if that's smaller; `msl --install --vhd-size` and `defaultVhdSize` choose another size. The VM attaches disks through 16 disk slots, so a stopped distribution you haven't used for a while can give its slot up. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
 - `msl --manage --move`, `msl --manage --resize` for one distribution, `msl --export --vhd`, `msl --import --vhd` and `msl --import-in-place` work as in WSL, with raw ext4 images instead of VHDX. `msl --unregister` deletes the distribution's `ext4.img`, including one imported in place.
-- `nestedVirtualization` in `[msl2]`, as in `.wslconfig` (default `true`): `/dev/kvm` in the VM on a Mac with an M3 chip or later, with a kernel that has KVM. `msl --status` shows whether it's on.
+- `nestedVirtualization` in `[msl2]`, as in `.wslconfig` (default `true`): `/dev/kvm` in the distributions on a Mac with an M3 chip or later; MSL's kernel (`6.18.15-msl-a1a22bd`) has KVM built in, and `uname -r` now shows that release. `msl --status` shows whether it's on.
 - The VM keeps one machine identifier across boots, and its `/etc/machine-id` is that identifier's UUID. Distributions keep their own.
 
 **Changed**
