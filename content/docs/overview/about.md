@@ -29,6 +29,6 @@ MSL runs a Linux kernel in one lightweight utility VM, using only Apple's Virtua
 
 Because a distribution is a set of namespaces rather than a VM of its own, starting one doesn't boot a VM. An idle distribution stops after 15 seconds, and the VM stops 60 seconds after the last distribution does, handing its memory back to macOS. `msld` itself stays running, idle, until you log out.
 
-On macOS, `msl` talks to `msld`, a per-user service that the first `msl` command starts. `msld` runs the VM and keeps the list of distributions. MSL installs no kernel extension, LaunchAgent or login item. [How MSL works]({{< relref "/docs/concepts/how-it-works" >}}) goes into more detail.
+On macOS, `msl` talks to `msld`, a per-user service that the first `msl` command starts. `msld` runs the VM and keeps the list of distributions. MSL installs no kernel extension or login item; launchd starts `msld` on demand through a LaunchAgent. [How MSL works]({{< relref "/docs/concepts/how-it-works" >}}) goes into more detail.
 
 MSL is an independent project. It isn't affiliated with or endorsed by Microsoft or Apple.

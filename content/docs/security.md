@@ -10,7 +10,7 @@ MSL runs Linux distributions in one lightweight virtual machine on behalf of one
 
 - `msl` and its service, `msld`, run as your macOS user, never as root. `msld` holds one entitlement, `com.apple.security.virtualization`, which Virtualization.framework needs to start a VM.
 - The Linux kernel and every distribution run inside the VM. Root in a distribution is root in that distribution's namespaces, not on macOS.
-- Installing MSL needs no administrator rights, unless you choose a system prefix such as `/usr/local`. MSL installs no LaunchAgent, kernel extension or login item. `msld` starts when you first run `msl`.
+- Installing MSL needs no administrator rights, unless you choose a system prefix such as `/usr/local`. MSL installs no kernel extension or login item. Its LaunchAgent, `~/Library/LaunchAgents/dev.msl.msld.plist`, runs nothing at login: launchd starts `msld`, as your user, when you first run `msl`.
 
 ## Isolation
 

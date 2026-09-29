@@ -42,6 +42,8 @@ See [systemd]({{< relref "/docs/concepts/systemd" >}}) and [Advanced settings co
 
 **A `~/.mslconfig` change has no effect.** VM settings apply the next time the VM starts. `msl --status` lists changes that are still pending; `msl --shutdown` stops the VM so the next command starts it with them.
 
+**"msld is shutting down".** macOS is logging out or restarting, or `msld` was stopped (`launchctl bootout`). It stops the distributions and flushes their disks, which takes a few seconds; run the command again after that. To see whether launchd runs `msld`: `launchctl print gui/$(id -u)/dev.msl.msld`.
+
 **MSL uses more memory than the distributions need.** Virtualization.framework doesn't give memory back to macOS while the VM runs, so it returns only when the VM stops: after `vmIdleTimeout` with nothing running, or with `msl --shutdown`. `autoMemoryReclaim` has no effect on macOS. [#37](https://github.com/onexay/msl/issues/37) explains why. To cap what the VM can take, set `memory` in `~/.mslconfig`.
 
 ## Files

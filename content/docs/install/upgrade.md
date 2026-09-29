@@ -16,6 +16,10 @@ This installs the latest release in place and keeps your distributions and setti
 
 These changes can break a script or a habit. Newest first.
 
+### Unreleased: msld is a LaunchAgent
+
+The first `msl` command after updating adds `~/Library/LaunchAgents/dev.msl.msld.plist`, and launchd starts `msld` from then on, still only when `msl` needs it. It lets MSL shut the VM down cleanly when you log out, restart or shut down the Mac. `msl --uninstall` removes it; `launchctl bootout gui/$(id -u)/dev.msl.msld` stops it.
+
 ### Unreleased: each distribution gets its own disk
 
 New distributions get their own disk, `ext4.img` in their install location, instead of a directory on the shared `data.img`. Existing distributions keep working from `data.img`; move one onto its own disk with `msl --manage <distro> --move <folder>`. `--manage --resize` now grows one distribution's disk (it must be stopped) rather than `data.img` for all of them, and `msl --unregister` deletes the distribution's `ext4.img`. `fsync` inside a distribution on its own disk isn't a durability point; see [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
