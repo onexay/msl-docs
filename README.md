@@ -8,7 +8,7 @@ It's organised like Microsoft's [WSL documentation](https://learn.microsoft.com/
 $ hugo server          # preview at http://localhost:1313/msl-docs/
 ```
 
-The site isn't published yet. CI builds it on every push and uploads the result as an artifact.
+The site is published at **https://onexay.github.io/msl-docs/**. CI builds it on every pull request and deploys `main` to GitHub Pages; it's the authoritative MSL documentation (the msl repo no longer has a site).
 
 [CONTRIBUTING.md](CONTRIBUTING.md) covers the page layout and writing style. Report problems with MSL itself in [onexay/msl](https://github.com/onexay/msl/issues), and problems with these pages here.
 
