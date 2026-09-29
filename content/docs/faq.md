@@ -34,6 +34,10 @@ Macs with Apple silicon, running macOS 26 or later. Distributions are arm64. x86
 
 It uses Apple's Virtualization.framework, which is part of macOS, and nothing else: no QEMU and no kernel extension. See [How MSL works]({{< relref "/docs/concepts/how-it-works" >}}).
 
+### Can I run virtual machines inside MSL?
+
+On a Mac with an M3 chip or later, MSL turns on nested virtualization, so `/dev/kvm` exists in the VM when its kernel has KVM. `nestedVirtualization = false` in `~/.mslconfig` turns it off, as in WSL, and `msl --status` shows whether it's on. See [Advanced settings configuration]({{< relref "/docs/concepts/msl-config#main-settings" >}}).
+
 ### Can I access the GPU?
 
 Not yet. MSL has no GPU access, and no support for Linux GUI apps. See [GPU acceleration]({{< relref "/docs/tutorials/gpu-compute" >}}) and [GUI apps]({{< relref "/docs/tutorials/gui-apps" >}}).
@@ -133,15 +137,21 @@ $ msl --export Ubuntu ~/Backups/ubuntu.tar.gz --format tar.gz
 $ msl --import Ubuntu-restored ~/msl/Ubuntu-restored ~/Backups/ubuntu.tar.gz
 ```
 
-`msl --import` takes a location because `wsl --import` does, but every distribution lives on MSL's one shared disk, so the files don't go there. See [Import any Linux distribution]({{< relref "/docs/how-to/use-custom-distro" >}}).
+The location is the folder for the restored distribution's disk, `ext4.img`. To copy the whole disk instead of a tar file, use `msl --export <Distro> <file> --vhd` and `msl --import <Distro> <location> <file> --vhd`. See [Import any Linux distribution]({{< relref "/docs/how-to/use-custom-distro" >}}).
 
 ### How do I move my distributions to another Mac?
 
-Export each distribution with `msl --export` and import it on the other Mac with `msl --import`. `msl --export` writes a plain tar file, the same format `wsl --import` takes.
+Export each distribution with `msl --export` and import it on the other Mac with `msl --import`. `msl --export` writes a plain tar file, the same format `wsl --import` takes. `msl --export <Distro> <file> --vhd` copies the distribution's disk instead, which `msl --import <Distro> <location> <file> --vhd` registers on the other Mac.
 
 ### Can I move a distribution to another drive?
 
-No. All distributions live on one disk, `~/Library/Application Support/msl/data.img`, so there's no per-distribution file to move, and `msl --manage <distro> --move` fails with "not supported". See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
+Yes, as in WSL:
+
+```console
+$ msl --manage Ubuntu --move /Volumes/External/Ubuntu
+```
+
+MSL stops the distribution and moves its disk, `ext4.img`, into that folder. A distribution from MSL 0.1.11 or earlier, still on the shared `data.img`, gets a disk of its own there. See [Manage disk space]({{< relref "/docs/how-to/disk-space#move-a-distribution" >}}).
 
 ### How do I set the default user?
 
@@ -167,7 +177,7 @@ Yes. MSL reads `/etc/msl.conf`, falling back to `/etc/wsl.conf`, and supports th
 
 ### Can I use MSL in production?
 
-MSL is built for development on your own Mac, not for serving production workloads. It manages the VM for you: a distribution stops about 15 seconds after its last `msl` session ends, even with services still running in it, and the VM stops a minute after the last distribution does. You can turn these timeouts off (`instanceIdleTimeout` and `vmIdleTimeout`, where `-1` means never), but the environment is still tied to your macOS login, the Linux kernel comes with MSL, and every distribution has full access to your macOS files.
+MSL is built for development on your own Mac, not for serving production workloads. It manages the VM for you: a distribution stops about 15 seconds after its last `msl` session ends, even with services still running in it, and the VM stops a minute after the last distribution does. You can turn these timeouts off (`instanceIdleTimeout` and `vmIdleTimeout`, where `-1` means never), but the environment is still tied to your macOS login, the Linux kernel comes with MSL, and every distribution has full access to your macOS files. `fsync` inside a distribution also doesn't guarantee that data is on the SSD: a macOS crash or power loss can lose recent writes until the disks are flushed at `msl --shutdown`. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
 
 ## Project
 

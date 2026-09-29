@@ -17,11 +17,12 @@ Installs a Linux distribution and runs its first-run setup, which asks you to cr
 Options:
 
 - `--name`: the name to give the distribution.
-- `--location`: where to install it.
+- `--location`: the folder for its disk, `ext4.img`.
 - `--no-launch`, `-n`: install it without running its first-run setup.
 - `--from-file <Path>`: install from a local `.wsl` image.
+- `--vhd-size <Size>`: the maximum size of its disk, for example `64GB`.
 
-`--web-download`, `--vhd-size` and `--fixed-vhd` are accepted and ignored.
+`--web-download` and `--fixed-vhd` are accepted and ignored; disks are always sparse.
 
 ## List available Linux distributions
 
@@ -104,7 +105,7 @@ Installs the latest MSL release in place and keeps your distributions and settin
 $ msl --status
 ```
 
-Shows the default distribution and the VM's settings: memory, processors, kernel, networking, idle timeouts, disk size and use, and whether the VM is running. It also lists `~/.mslconfig` changes that apply after the next `msl --shutdown`.
+Shows the default distribution and the VM's settings: memory, processors, kernel, networking, nested virtualization, idle timeouts, the distributions' disks and their use on macOS, and whether the VM is running. It also lists `~/.mslconfig` changes that apply after the next `msl --shutdown`.
 
 ## Check the version
 
@@ -144,7 +145,7 @@ Sets the user that shells run as. The user must exist in the distribution. `[use
 $ msl --shutdown
 ```
 
-Stops every running distribution and the VM. Use it to apply changes to `~/.mslconfig`. `--force` stops the VM even if an operation is in progress, which can lose data.
+Stops every running distribution and the VM, and flushes every distribution's disk to the SSD. Use it to apply changes to `~/.mslconfig`. `--force` stops the VM even if an operation is in progress, which can lose data.
 
 ## Terminate
 
@@ -169,7 +170,7 @@ You rarely need either: a server in a distribution is reachable at `localhost` o
 $ msl --export <Distribution Name> <FileName>
 ```
 
-Writes the distribution to a tar file, the format `wsl --import` takes. Use `-` as the file name for stdout. `--format tar.gz` or `--format tar.xz` compresses it.
+Writes the distribution to a tar file, the format `wsl --import` takes. Use `-` as the file name for stdout. `--format tar.gz` or `--format tar.xz` compresses it. `--vhd` copies the distribution's disk instead, as a raw ext4 image; it stops the distribution first.
 
 ## Import a distribution
 
@@ -177,7 +178,15 @@ Writes the distribution to a tar file, the format `wsl --import` takes. Use `-` 
 $ msl --import <Distribution Name> <InstallLocation> <FileName>
 ```
 
-Imports a tar file as a new distribution. Use `-` as the file name for stdin. See [Import any Linux distribution]({{< relref "/docs/how-to/use-custom-distro" >}}).
+Imports a tar file as a new distribution, with its disk in `<InstallLocation>`. Use `-` as the file name for stdin. `--vhd` imports a raw ext4 disk image instead, copied to `<InstallLocation>/ext4.img`. See [Import any Linux distribution]({{< relref "/docs/how-to/use-custom-distro" >}}).
+
+## Import a distribution in place
+
+```console
+$ msl --import-in-place <Distribution Name> <FileName>
+```
+
+Registers a raw ext4 disk image as a new distribution, using the file where it is. `msl --unregister` deletes it.
 
 ## Unregister or uninstall a Linux distribution
 
@@ -185,11 +194,21 @@ Imports a tar file as a new distribution. Use `-` as the file name for stdin. Se
 $ msl --unregister <Distribution Name>
 ```
 
-Removes the distribution and deletes its files.
+Removes the distribution and deletes its files, including its disk, `ext4.img`, as WSL deletes `ext4.vhdx`.
 
 {{< callout type="warning" >}}
 Everything in the distribution is deleted permanently, including your files in its home directories. Export it first if you might need it again.
 {{< /callout >}}
+
+## Move, grow or compact a distribution's disk
+
+```console
+$ msl --manage <Distribution Name> --move <Location>
+$ msl --manage <Distribution Name> --resize 512GB
+$ msl --manage <Distribution Name> --compact
+```
+
+`--move` stops the distribution and moves its disk to another folder. `--resize` grows the disk of a stopped distribution; it can't shrink. `--compact` returns space freed inside the disk to macOS. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
 
 ## Mount a disk
 
@@ -225,15 +244,6 @@ $ msl --manage-ide
 
 Sets up the MSL extension in VS Code, VS Code Insiders, VSCodium or Cursor. `--ide <vscode|vscode-insiders|vscode-oss|cursor|all>` picks the IDE, and `--install` or `--uninstall` says what to do. See [Get started with VS Code]({{< relref "/docs/tutorials/msl-vscode" >}}).
 
-### Grow and compact the disk
-
-```console
-$ msl --manage <Distribution Name> --resize 512GB
-$ msl --manage <Distribution Name> --compact
-```
-
-`--resize` grows the disk all distributions share; they must all be stopped first. `--compact` returns space freed inside the disk to macOS. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
-
 ### Debug shell
 
 ```console
@@ -252,4 +262,4 @@ Removes MSL and its VS Code setup, and keeps your distributions and settings.
 
 ## Not available on macOS
 
-These `wsl.exe` options have no macOS equivalent: `--system`, `--enable-wsl1`, `--inbox`, and WSL 1. `msl --manage <Distribution Name> --move` fails with "not supported", because all distributions share one disk. `--set-sparse` is accepted, and the disk is always sparse. `--import-in-place` is planned.
+These `wsl.exe` options have no macOS equivalent: `--system`, `--enable-wsl1`, `--inbox`, and WSL 1. `--set-sparse` is accepted, and disks are always sparse.

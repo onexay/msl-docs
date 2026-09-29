@@ -7,6 +7,24 @@ description: What changed in each release of MSL, newest first.
 
 What changed in each MSL release, newest first. Update to the latest release with `msl --update`. Changes that can break a script or a habit are marked **Breaking**. Each version links to its GitHub release, which has the downloads and checksums.
 
+## Unreleased
+
+Not released yet; these changes are on `main`.
+
+**Added**
+
+- Each new distribution gets its own disk, a sparse `ext4.img` in its install location, like WSL's `ext4.vhdx` ([#50](https://github.com/onexay/msl/issues/50)). It's 256 GB by default, or the size of the macOS disk if that's smaller; `msl --install --vhd-size` and `defaultVhdSize` choose another size. The VM attaches disks through 16 disk slots, so a stopped distribution you haven't used for a while can give its slot up. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
+- `msl --manage --move`, `msl --manage --resize` for one distribution, `msl --export --vhd`, `msl --import --vhd` and `msl --import-in-place` work as in WSL, with raw ext4 images instead of VHDX. `msl --unregister` deletes the distribution's `ext4.img`, including one imported in place.
+- `nestedVirtualization` in `[msl2]`, as in `.wslconfig` (default `true`): `/dev/kvm` in the VM on a Mac with an M3 chip or later, with a kernel that has KVM. `msl --status` shows whether it's on.
+- The VM keeps one machine identifier across boots, and its `/etc/machine-id` is that identifier's UUID. Distributions keep their own.
+
+**Changed**
+
+- **Breaking:** `msl --manage <distro> --resize` grows that distribution's disk (it must be stopped) rather than `data.img` for all of them. Distributions from earlier versions stay on `data.img`, and `--resize` still grows `data.img` for them, until you move them onto their own disk with `msl --manage <distro> --move <folder>`.
+- **Breaking:** `fsync` inside a distribution on its own disk isn't a durability point. Virtualization.framework passes no flushes to these disks, so writes are flushed to the SSD when a disk is detached and at `msl --shutdown`. A crash of MSL or the VM keeps what was written; a macOS crash or power loss can lose recent writes. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
+- `msl --status` shows the distributions' disks (`Distribution disks`), and the shared disk only while a distribution is still on it.
+- The kernel and the VS Code extension moved to their own repositories, [msl-kernel](https://github.com/onexay/msl-kernel) and [msl-vscode-extension](https://github.com/onexay/msl-vscode-extension). MSL still bundles both.
+
 ## 0.1.11
 
 28 September 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.11) · kernel `kernel-6.18.15-msl-21f0ec7`

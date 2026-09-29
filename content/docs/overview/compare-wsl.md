@@ -24,7 +24,8 @@ MSL aims to behave like WSL 2, so that one set of instructions works on Windows 
 | Networking | NAT, or mirrored | NAT only |
 | localhost forwarding | Yes | Yes, IPv4 and IPv6 |
 | DNS through the host | `dnsTunneling` | Yes, through macOS's resolver |
-| Disks | One `ext4.vhdx` per distribution | One shared disk for all distributions |
+| Disks | One `ext4.vhdx` per distribution | One `ext4.img` per distribution: raw ext4, not VHDX |
+| Nested virtualization | `nestedVirtualization` | The same, on a Mac with an M3 chip or later |
 | Memory returned to the host while running | Yes (`autoMemoryReclaim`) | No, only when the VM stops |
 | GUI apps (WSLg), GPU | Yes | No |
 | USB devices | With usbipd-win | No; disk images only (`msl --mount`) |
@@ -53,9 +54,16 @@ MSL reads `/etc/msl.conf`, falling back to `/etc/wsl.conf`. It supports these ke
 
 WSL can run Windows programs from Linux, and puts Windows directories on Linux's `PATH`. MSL never runs macOS programs from Linux and never adds macOS paths to `PATH`. Build tools such as `npm`, `node-gyp` and `configure` therefore find only Linux toolchains, and build output is always Linux, even under `/mnt/macos`. WSL detection stays off, so tools don't assume Windows interop.
 
-## One disk for all distributions
+## Disks
 
-WSL gives each distribution its own virtual disk. MSL keeps every distribution on one sparse disk, `data.img`, so they share its space. `msl --manage --move` isn't supported, and `--resize` grows the disk for all of them. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
+As in WSL, each distribution has its own sparse disk, and `--manage --move`, `--manage --resize`, `--export --vhd`, `--import --vhd` and `--import-in-place` work. The differences:
+
+- The disk is a raw ext4 image, `ext4.img`, not VHDX. Convert with `qemu-img convert -O raw` or `-O vhdx`.
+- The VM has 16 disk slots. With more distributions than that, stopped ones give up their slot until you use them again.
+- `fsync` inside a distribution doesn't guarantee the data is on the SSD: disks are flushed when they're detached and at `msl --shutdown`. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
+- Distributions from MSL 0.1.11 or earlier stay on one shared disk, `data.img`, until you move them.
+
+See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
 
 ## Memory
 
@@ -66,6 +74,6 @@ Virtualization.framework doesn't give memory back to macOS while the VM runs. Me
 - x86_64-only distributions. `msl --list --online` leaves them out, and `msl --install` refuses them ([#40](https://github.com/onexay/msl/issues/40)).
 - GUI apps, GPU access and USB devices.
 - Mirrored networking.
-- Moving a distribution, and shrinking the disk.
+- Shrinking a disk.
 
 Planned work is in the [milestones](https://github.com/onexay/msl/milestones).

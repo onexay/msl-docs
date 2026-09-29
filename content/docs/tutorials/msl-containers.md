@@ -67,7 +67,7 @@ The `docker.io` package enables the Docker service, so Docker starts with the di
 
 MSL runs arm64 Linux, so use images that include `linux/arm64`, as most official images on Docker Hub do. MSL doesn't support x86_64 (`linux/amd64`) Linux yet ([#40](https://github.com/onexay/msl/issues/40)).
 
-Images and containers are stored in the distribution, on MSL's shared disk. `docker system prune` frees space in the disk; to hand that space back to macOS, see [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
+Images and containers are stored in the distribution, on its own disk. `docker system prune` frees space in the disk; to hand that space back to macOS, see [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
 
 ## Use Docker from VS Code
 

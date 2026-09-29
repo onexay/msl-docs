@@ -86,4 +86,8 @@ Use the database's own dump tool, such as `pg_dump`, and copy the dump to macOS 
 $ pg_dump myapp > /mnt/macos/Users/<you>/Backups/myapp.sql
 ```
 
-To back up the whole distribution instead, use `msl --export`. See [Import any Linux distribution]({{< relref "/docs/how-to/use-custom-distro" >}}).
+To back up the whole distribution instead, use `msl --export`, or `msl --export --vhd` for a copy of its disk. See [Import any Linux distribution]({{< relref "/docs/how-to/use-custom-distro" >}}).
+
+## Durability
+
+A committed transaction isn't guaranteed to be on the Mac's SSD. The database's `fsync` reaches macOS's file cache, not the SSD: MSL flushes a distribution's disk when it's detached and at `msl --shutdown`. If MSL or the VM crashes, committed data is kept. If macOS crashes or the Mac loses power, recent commits can be lost and the file system can be damaged. Run `msl --shutdown` before relying on data surviving a power loss, and keep dumps of data you can't recreate. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
