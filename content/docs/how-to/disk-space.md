@@ -105,7 +105,7 @@ $ qemu-img convert -O vhdx ext4.img ext4.vhdx     # an MSL disk, for WSL
 
 ## Durability
 
-MSL serves the disks to the VM itself, and Virtualization.framework never tells it when a distribution calls `fsync`. So MSL writes the way `qemu-nbd` does by default: a write is done once it's in macOS's file cache, and each disk is flushed to the SSD when it's detached, including at shutdown.
+MSL serves the disks to the VM itself, and Virtualization.framework never tells it when a distribution calls `fsync`. So MSL writes the way `qemu-nbd` does by default: a write is done once it's in macOS's file cache, and each disk is flushed to the SSD when it's detached, including at shutdown. When you log out, restart or shut down the Mac, MSL stops the distributions and unmounts and flushes their disks first, as `msl --shutdown` does, so nothing written by then is lost.
 
 - If MSL or the VM crashes, what the distribution had written to its disk is kept: macOS still writes out its cache. As after any Linux crash, writes still in the distribution's own memory are lost; `sync` or `fsync` guards against that.
 - If macOS crashes or the Mac loses power, the last writes can be lost and a distribution's file system can be damaged. MSL checks and repairs it (`e2fsck`) the next time it attaches the disk.

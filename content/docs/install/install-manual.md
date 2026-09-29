@@ -49,6 +49,7 @@ MSL has no Homebrew formula. It updates itself with `msl --update`.
 |---|---|---|
 | MSL itself: the command, the service, the kernel and VM image, the VS Code extension | `<prefix>/bin/msl`, `<prefix>/libexec/msl/msld`, `<prefix>/share/msl/`, `<prefix>/share/doc/msl/` | `msl --uninstall` |
 | `PATH` | One line in `~/.zshrc`, `~/.bash_profile`, `~/.config/fish/config.fish` or `~/.profile` | Removing the line by hand |
+| LaunchAgent | `~/Library/LaunchAgents/dev.msl.msld.plist`, added the first time you run `msl` | `msl --uninstall` |
 | VS Code extension | Each IDE's extensions folder | `msl --manage-ide --ide all --uninstall`, or `msl --uninstall` |
 | `enable-proposed-api` | Each IDE's `argv.json`, for example `~/.vscode/argv.json`. The first change saves a backup, `argv.json.msl-backup`. | The same; the entry is removed |
 | Which `msl` the extension runs | `~/Library/Application Support/msl/cli-path` | The same |
@@ -62,7 +63,7 @@ MSL creates these the first time you use it:
 | Downloads | `~/Library/Caches/msl/`: distribution images, and the VS Code Server for your IDE's version |
 | VM settings | `~/.mslconfig`, only if you create it |
 
-MSL doesn't install a LaunchAgent, a kernel extension or a login item. `msld` starts when you first run `msl`, and stops the VM 60 seconds after nothing is running.
+MSL doesn't install a kernel extension or a login item. Its LaunchAgent runs nothing at login: launchd starts `msld` when you first run `msl`, and `msld` stops the VM 60 seconds after nothing is running. When you log out, restart or shut down the Mac, launchd gives `msld` up to 30 seconds to stop the distributions and flush their disks. Over SSH with nobody logged in to the Mac, `msl` starts `msld` itself.
 
 ## Install the VS Code extension by hand
 
