@@ -1,0 +1,64 @@
+# MSL documentation site: Hugo with the Hextra theme (https://imfing.github.io/hextra/).
+# Local preview: hugo server
+baseURL: https://onexay.github.io/msl-docs/
+locale: en-us
+title: MSL documentation
+
+module:
+  imports:
+    - path: github.com/imfing/hextra
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+
+enableGitInfo: true
+# Broken {{< relref >}} links fail the build.
+refLinksErrorLevel: ERROR
+
+menu:
+  main:
+    - name: Docs
+      pageRef: /docs
+      weight: 1
+    - name: Release notes
+      pageRef: /docs/release-notes
+      weight: 2
+    - name: Search
+      weight: 3
+      params:
+        type: search
+    - name: GitHub
+      weight: 4
+      url: https://github.com/onexay/msl
+      params:
+        icon: github
+
+params:
+  description: Documentation for MSL, the Modern Subsystem for Linux. Linux distributions on macOS, the way WSL runs them on Windows.
+  navbar:
+    displayTitle: true
+    displayLogo: true
+    logo:
+      path: images/logo.png
+      dark: images/logo.png
+      width: 32
+      height: 32
+  page:
+    width: wide
+  footer:
+    displayCopyright: true
+    displayPoweredBy: false
+  editURL:
+    enable: true
+    base: https://github.com/onexay/msl-docs/edit/main/content
+  displayUpdatedDate: true
+  dateFormat: "2 January 2006"
+  toc:
+    displayTags: false
+  blog:
+    list:
+      displayTags: false
