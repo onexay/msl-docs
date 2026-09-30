@@ -50,7 +50,9 @@ See [systemd]({{< relref "/docs/concepts/systemd" >}}) and [Advanced settings co
 
 **`~/.msl/distros` is empty.** The folders there are mounts that exist only while the VM runs. Start any distribution, for example with `msl -e true`, and they come back.
 
-**A distribution is missing from `~/.msl/distros`.** The VM has 16 disk slots. With more distributions than that, a stopped distribution used longest ago gives up its slot, and its folder goes. Run the distribution, for example with `msl -d <Distro> -e true`, and it's back.
+**A distribution is missing from `~/.msl/distros`.** The VM attaches up to 19 distribution disks when it starts. With more distributions than that, the others appear once you use one, for example with `msl -d <Distro> -e true`.
+
+**A distribution's disk is slow, and `df /` in it shows `/dev/loop…`.** Its disk was added (installed, imported, moved to another volume or resized) while another distribution was running, so it's mounted through the Mac file share until the VM restarts. Stop the distributions and run `msl --shutdown`; from the next start the disk is attached normally. See [How disks are attached]({{< relref "/docs/how-to/disk-space#how-disks-are-attached" >}}).
 
 **A build is slow, or file names clash, under `/mnt/macos`.** Files under `/mnt/macos` live on macOS: access is slower than the distribution's own disk, and names are usually case-insensitive. Work in your Linux home directory instead. See [Working across file systems]({{< relref "/docs/concepts/filesystems" >}}).
 

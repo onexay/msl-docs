@@ -90,4 +90,4 @@ To back up the whole distribution instead, use `msl --export`, or `msl --export 
 
 ## Durability
 
-A committed transaction isn't guaranteed to be on the Mac's SSD. The database's `fsync` reaches macOS's file cache, not the SSD: MSL flushes a distribution's disk when it's detached and at `msl --shutdown`. If MSL or the VM crashes, committed data is kept. If macOS crashes or the Mac loses power, recent commits can be lost and the file system can be damaged. Run `msl --shutdown` before relying on data surviving a power loss, and keep dumps of data you can't recreate. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
+A committed transaction is on the Mac's SSD: the database's `fsync` is flushed there, as on Linux. The exception is a distribution whose disk was added while another distribution was running (`df /` shows `/dev/loop…`): until the VM restarts, its `fsync` reaches only macOS's file cache, so a macOS crash or power loss can lose recent commits. Run `msl --shutdown` to end that state, and keep dumps of data you can't recreate. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
