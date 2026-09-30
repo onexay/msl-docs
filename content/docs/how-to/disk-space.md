@@ -19,7 +19,7 @@ Virtualization.framework can't add a disk to a running VM. So when a disk appear
 - If no distribution is running, MSL restarts the VM so the new disk is attached at start. This takes a second or two.
 - If a distribution is running, MSL mounts the new disk through the Mac file share instead, until the VM next restarts. This works, but disk access is slower (random reads and writes especially), and `fsync` doesn't reach the SSD right away; see [Durability](#durability).
 
-The VM restarts on its own a minute after the last distribution stops (`vmIdleTimeout`), or with `msl --shutdown`, and after that every disk is attached at start again. To see how a distribution's disk is attached, run `df /` in it: `/dev/vd…` is a disk attached at start, and `/dev/loop…` is one mounted through the file share.
+The VM stops a minute after the last distribution does (`vmIdleTimeout`), or with `msl --shutdown`; when it next starts, every disk is attached at start. To see how a distribution's disk is attached, run `df /` in it: `/dev/vd…` is a disk attached at start, and `/dev/loop…` is one mounted through the file share.
 
 Only distributions whose disk is attached or mounted appear in `~/.msl/distros`. With more than 19 distributions, the others appear once you use them.
 
