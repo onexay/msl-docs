@@ -177,7 +177,7 @@ Yes. MSL reads `/etc/msl.conf`, falling back to `/etc/wsl.conf`, and supports th
 
 ### Can I use MSL in production?
 
-MSL is built for development on your own Mac, not for serving production workloads. It manages the VM for you: a distribution stops about 15 seconds after its last `msl` session ends, even with services still running in it, and the VM stops a minute after the last distribution does. You can turn these timeouts off (`instanceIdleTimeout` and `vmIdleTimeout`, where `-1` means never), but the environment is still tied to your macOS login, the Linux kernel comes with MSL, and every distribution has full access to your macOS files. `fsync` inside a distribution also doesn't guarantee that data is on the SSD: a macOS crash or power loss can lose recent writes until the disks are flushed at `msl --shutdown`. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
+MSL is built for development on your own Mac, not for serving production workloads. It manages the VM for you: a distribution stops about 15 seconds after its last `msl` session ends, even with services still running in it, and the VM stops a minute after the last distribution does. You can turn these timeouts off (`instanceIdleTimeout` and `vmIdleTimeout`, where `-1` means never), but the environment is still tied to your macOS login, the Linux kernel comes with MSL, and every distribution has full access to your macOS files. A disk added while another distribution was running is also, until the VM restarts, mounted through the Mac file share, where `fsync` doesn't reach the SSD right away. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
 
 ## Project
 

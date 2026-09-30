@@ -35,7 +35,7 @@ Distributions are isolated from each other with Linux namespaces, as in WSL 2.
 
 Because a distribution is a set of namespaces rather than a VM, it starts in milliseconds once the VM is up. Isolation between distributions is the same as in WSL 2: good enough to keep them from getting in each other's way, but weaker than separate VMs.
 
-The VM has 16 disk slots, because Virtualization.framework can't add a disk to a running VM. `msld` attaches every distribution's disk when the VM starts, and a distribution's disk when you use it. With all slots taken, the stopped distribution used longest ago gives its slot up. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
+Every distribution's disk (up to 19) is attached to the VM when it starts, and Virtualization.framework serves it, so `msld` never handles disk I/O. Virtualization.framework can't add a disk to a running VM: a disk that appears while the VM runs makes `msld` restart the VM if no distribution is running, and otherwise the VM mounts it through the Mac file share until it next restarts. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
 
 ## Starting and stopping
 

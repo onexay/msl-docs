@@ -59,8 +59,8 @@ WSL can run Windows programs from Linux, and puts Windows directories on Linux's
 As in WSL, each distribution has its own sparse disk, and `--manage --move`, `--manage --resize`, `--export --vhd`, `--import --vhd` and `--import-in-place` work. The differences:
 
 - The disk is a raw ext4 image, `ext4.img`, not VHDX. Convert with `qemu-img convert -O raw` or `-O vhdx`.
-- The VM has 16 disk slots. With more distributions than that, stopped ones give up their slot until you use them again.
-- `fsync` inside a distribution doesn't guarantee the data is on the SSD: disks are flushed when they're detached and at `msl --shutdown`. See [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
+- Disks can't be added to a running VM. A disk added while a distribution runs is mounted through the Mac file share until the VM restarts: slower, and `fsync` there doesn't reach the SSD right away. See [How disks are attached]({{< relref "/docs/how-to/disk-space#how-disks-are-attached" >}}).
+- Up to 19 distribution disks are attached when the VM starts.
 - Distributions from MSL 0.1.11 or earlier stay on one shared disk, `data.img`, until you move them.
 
 See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).

@@ -146,7 +146,7 @@ Section: `[msl2]` (or `[wsl2]`)
 | `dnsTunneling` | boolean | `true` | `true` resolves names through macOS's resolver. `false` uses the VM network's DNS server. |
 | `nestedVirtualization` | boolean | `true` | Lets the VM run virtual machines of its own: `/dev/kvm` exists in the distributions on a Mac with an M3 chip or later (MSL's kernel has KVM; a custom `kernel` needs it too). `msl --status` shows whether it's on. |
 | `vmIdleTimeout` | number | `60000` | Milliseconds the VM waits after the last distribution stops before it shuts down. `-1` keeps it running. |
-| `defaultVhdSize` | size | 256 GB, or the size of the Mac's disk if smaller | Maximum size of each new distribution's disk. `msl --install --vhd-size` overrides it for one distribution, and `msl --manage <distro> --resize` grows an existing disk. From 4 GB to 4 TB. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}). |
+| `defaultVhdSize` | size | 256 GB, or the size of the Mac's disk if smaller | Maximum size of each new distribution's disk. `msl --install --vhd-size` overrides it for one distribution, and `msl --manage <distro> --resize` grows an existing disk. At least 4 GB. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}). |
 | `fileViewTransport` | `unix` or `tcp` | `unix` | How `~/.msl/distros` is served to macOS. `unix` uses a socket only your user can open. `tcp` uses a port on `127.0.0.1`, which other users on the Mac can reach. |
 
 ### General settings

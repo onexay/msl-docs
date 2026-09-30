@@ -12,7 +12,16 @@ Distributions installed by MSL 0.1.11 or earlier stay on the old shared disk, `~
 
 ## How disks are attached
 
-Virtualization.framework can't add a disk to a running VM, so MSL starts the VM with 16 empty disk slots and fills them as needed: every distribution's disk when the VM starts, and a distribution's disk when you use it. With all 16 slots taken, the stopped distribution used longest ago gives its slot up. Only distributions whose disk is attached appear in `~/.msl/distros`.
+When the VM starts, MSL attaches every distribution's disk to it, up to 19 disks, starting with the default distribution. Virtualization.framework serves these disks itself, as fast as the VM's own disk.
+
+Virtualization.framework can't add a disk to a running VM. So when a disk appears while the VM is running (you install or import a distribution, move one to another volume, or resize one):
+
+- If no distribution is running, MSL restarts the VM so the new disk is attached at start. This takes a second or two.
+- If a distribution is running, MSL mounts the new disk through the Mac file share instead, until the VM next restarts. This works, but disk access is slower (random reads and writes especially), and `fsync` doesn't reach the SSD right away; see [Durability](#durability).
+
+The VM restarts on its own a minute after the last distribution stops (`vmIdleTimeout`), or with `msl --shutdown`, and after that every disk is attached at start again. To see how a distribution's disk is attached, run `df /` in it: `/dev/vd…` is a disk attached at start, and `/dev/loop…` is one mounted through the file share.
+
+Only distributions whose disk is attached or mounted appear in `~/.msl/distros`. With more than 19 distributions, the others appear once you use them.
 
 ## Check how much space is used
 
@@ -43,7 +52,7 @@ To change the default for new distributions, set `defaultVhdSize` in `~/.mslconf
 defaultVhdSize = 512GB
 ```
 
-The minimum is 4 GB and the maximum 4 TB.
+The minimum is 4 GB.
 
 ## Grow a disk
 
@@ -54,9 +63,9 @@ $ msl --terminate Ubuntu
 $ msl --manage Ubuntu --resize 512GB
 ```
 
-MSL enlarges the file, and the VM checks and grows the file system before mounting it again, which takes a few seconds. Other distributions keep running.
+MSL enlarges the file, and the VM checks and grows the file system before mounting it again, which takes a few seconds. Other distributions keep running. If any are running, the resized disk is mounted through the Mac file share until the VM next restarts; see [How disks are attached](#how-disks-are-attached).
 
-The disk can't shrink, and it can't grow beyond the size of the Mac's disk or 4 TB.
+The disk can't shrink, and it can't grow beyond the size of the Mac's disk.
 
 For a distribution still on `data.img`, `--resize` grows `data.img`, and with it the space for every distribution on it. Every distribution must be stopped first (`msl --shutdown`).
 
@@ -76,7 +85,7 @@ $ msl --manage Ubuntu --compact
 $ msl --manage Ubuntu --move /Volumes/External/Ubuntu
 ```
 
-This stops the distribution and moves its `ext4.img` into the new folder: a rename on the same volume, a copy to another one. A distribution still on `data.img` gets a disk of its own in that folder: MSL copies its files over and then deletes them from `data.img`.
+This stops the distribution and moves its `ext4.img` into the new folder: a rename on the same volume, a copy to another one. A distribution still on `data.img` gets a disk of its own in that folder: MSL copies its files over and then deletes them from `data.img`. After a move to another volume, the disk is a new one to the VM; see [How disks are attached](#how-disks-are-attached).
 
 ## Export and import disk images
 
@@ -105,11 +114,13 @@ $ qemu-img convert -O vhdx ext4.img ext4.vhdx     # an MSL disk, for WSL
 
 ## Durability
 
-MSL serves the disks to the VM itself, and Virtualization.framework never tells it when a distribution calls `fsync`. So MSL writes the way `qemu-nbd` does by default: a write is done once it's in macOS's file cache, and each disk is flushed to the SSD when it's detached, including at shutdown. When you log out, restart or shut down the Mac, MSL stops the distributions and unmounts and flushes their disks first, as `msl --shutdown` does, so nothing written by then is lost.
+A disk attached when the VM starts behaves like a disk on Linux: when a distribution calls `fsync`, Virtualization.framework flushes the data to the Mac's SSD (`F_FULLFSYNC`) before `fsync` returns. When you log out, restart or shut down the Mac, MSL stops the distributions and unmounts their disks first, as `msl --shutdown` does.
 
-- If MSL or the VM crashes, what the distribution had written to its disk is kept: macOS still writes out its cache. As after any Linux crash, writes still in the distribution's own memory are lost; `sync` or `fsync` guards against that.
-- If macOS crashes or the Mac loses power, the last writes can be lost and a distribution's file system can be damaged. MSL checks and repairs it (`e2fsck`) the next time it attaches the disk.
+- If MSL or the VM crashes, what the distribution had written to its disk is kept. As after any Linux crash, writes still in the distribution's own memory are lost; `sync` or `fsync` guards against that.
+- If macOS crashes or the Mac loses power, what was synced is kept. Writes that weren't synced can be lost, and MSL checks and repairs the file system (`e2fsck`) the next time it mounts the disk.
+
+A disk mounted through the Mac file share (added while another distribution was running; `df /` shows `/dev/loop…`) is the exception. There, `fsync` reaches macOS's file cache but not the SSD. MSL flushes the disk to the SSD when it's unmounted and when the VM stops, and from the next VM start the disk is attached normally.
 
 {{< callout type="warning" >}}
-`fsync` inside a distribution doesn't guarantee the data is on the SSD, so a database's commit isn't safe from a power loss until the disk is flushed. `msl --shutdown` flushes every disk; run it before relying on data surviving a power loss.
+Until then, a macOS crash or power loss can lose recent writes on a disk mounted through the file share, even ones a database committed with `fsync`. `msl --shutdown` flushes it and ends that state; run it before relying on that data.
 {{< /callout >}}
