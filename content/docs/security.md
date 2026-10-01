@@ -33,7 +33,7 @@ MSL never runs macOS programs from Linux, and never puts macOS paths on the Linu
 | What | Who can reach it |
 |---|---|
 | The control socket, `~/Library/Application Support/msl/msld.sock` | Your user only (mode 0600). |
-| Streams the VS Code extension opens into a distribution: `msl --connect` through the control socket, or, from older versions of the extension, the connect socket, `connect.sock` in the same folder | Your user only (both sockets are mode 0600). A stream reaches a distribution as its default user, to a local TCP port or to a Unix socket under `~/.vscode-server/msl/`; other Unix sockets are refused. |
+| Streams the VS Code extension opens into a distribution, with `msl --connect` through the control socket | Your user only. A stream reaches a distribution as its default user, to a local TCP port or to a Unix socket under `~/.vscode-server/msl/`; other Unix sockets are refused. |
 | Forwarded ports on `127.0.0.1` and `::1` | Every local user on the Mac, as with WSL's localhost forwarding. Nothing is published on other interfaces. Turn forwarding off with `localhostForwarding = false`. |
 | Distribution files in `~/.msl/distros` | Your user only; see below. |
 
