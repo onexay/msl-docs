@@ -32,7 +32,7 @@ $ python3 -m http.server 8000      # in a distribution
 $ curl http://localhost:8000       # on macOS
 ```
 
-MSL watches the TCP ports that Linux programs listen on and opens the same ports on macOS's `127.0.0.1` and `::1`. Forwarding stops when the program stops listening. UDP isn't forwarded.
+MSL watches the TCP ports that Linux programs listen on and opens the same ports on macOS's `127.0.0.1` and `::1`. Forwarding stops when the program stops listening. UDP isn't forwarded. The connections go through `msl-portd`, a process that runs only while a port is forwarded, as WSL's `wslrelay.exe` does.
 
 - **Port already in use on macOS.** If a macOS program already uses the port, MSL skips it and logs it in `~/Library/Application Support/msl/msld.log`. Stop the macOS program, or use another port in Linux.
 - **Other users on the Mac.** Forwarded ports are on the Mac's loopback address, so any user logged in to the same Mac can connect to them, as with WSL's localhost forwarding.
