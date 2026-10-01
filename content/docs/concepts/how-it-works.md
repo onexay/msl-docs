@@ -17,7 +17,7 @@ msl (command)  ──▶  msld (background service, one per macOS user)
                  └─ Debian   (its own init and processes)
 ```
 
-- **`msl`** is the command you run. It takes `wsl.exe`'s arguments and passes each request to `msld`.
+- **`msl`** is the command you run. It takes `wsl.exe`'s arguments and passes each request to `msld`. A command's input and output go straight between `msl` and the VM: `msld` starts the command and reports its exit code but doesn't carry its data, so a large or stuck command doesn't slow down the others.
 - **`msld`** is a background process that runs as your macOS user. It's a LaunchAgent that launchd starts when the first `msl` command connects, and it stays until you log out or `msl --update` replaces it. It isn't a login item, and it needs no administrator rights. When you log out, restart or shut down the Mac, `msld` stops the distributions, unmounts and flushes their disks, and powers the VM off before it exits; launchd gives it up to 30 seconds.
 - **The VM** runs MSL's Linux kernel. `msld` starts it when a distribution first needs it.
 - **Each distribution** runs inside the VM with its own init: MSL's own, or systemd if you [turn it on]({{< relref "/docs/concepts/systemd" >}}).
