@@ -10,11 +10,15 @@ description: Update MSL to a new release, check for breaking changes, and remove
 $ msl --update
 ```
 
-This installs the latest release in place and keeps your distributions and settings. `msl --update --pre-release` installs a pre-release if one is available. [Release notes]({{< relref "/docs/release-notes" >}}) lists what changed.
+This installs the latest release in place and keeps your distributions and settings, and updates the VS Code extension in each IDE that has it. `msl --update --pre-release` installs a pre-release if one is available. [Release notes]({{< relref "/docs/release-notes" >}}) lists what changed.
 
 ## Breaking changes
 
 These changes can break a script or a habit. Newest first.
+
+### After 0.2.0: update the VS Code extension once
+
+MSL, its service and the VS Code extension now change together, and an extension from 0.2.0 or earlier can't connect to a newer MSL. After updating from 0.2.0, run `msl --manage-ide --install` once. From then on, `msl --update` updates the extension too.
 
 ### 0.2.0: msld is a LaunchAgent
 

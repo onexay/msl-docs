@@ -83,6 +83,8 @@ If `msl --status` warns that macOS is nearly out of space, free space on macOS f
 
 **"No remote extension installed to resolve msl".** The extension didn't start. The IDE's extension host log (**Output › Log (Extension Host)**) shows `CANNOT use API proposal: resolvers`. Run `msl --manage-ide`, or add `"enable-proposed-api": ["onexay.msl"]` to `argv.json` yourself with **Preferences: Configure Runtime Arguments**. Then quit the IDE with ⌘Q; closing the window isn't enough.
 
+**VS Code can't connect to a distribution after updating MSL.** The extension is older than MSL. Run `msl --manage-ide --install`, then reload the window.
+
 **"msl --list --verbose --json exited with 255".** The extension found an MSL older than 0.1.3. Run `msl --manage-ide --install` with the MSL you want it to use, or set the `msl.path` setting.
 
 **`bash: warning: setlocale: … cannot change locale` in the terminal.** The VS Code Server started without the distribution's locale. MSL 0.1.9 and later start it with the locale from `/etc/default/locale`. After updating, reload the window or run `msl --shutdown`.
