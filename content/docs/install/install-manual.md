@@ -47,7 +47,7 @@ MSL has no Homebrew formula. It updates itself with `msl --update`.
 
 | What | Where | Removed by |
 |---|---|---|
-| MSL itself: the command, the service, the kernel and VM image, the VS Code extension | `<prefix>/bin/msl`, `<prefix>/libexec/msl/` (`msld`, `msl-portd`), `<prefix>/share/msl/`, `<prefix>/share/doc/msl/` | `msl --uninstall` |
+| MSL itself: the command, the service, the kernel and VM image, the VS Code extension | `<prefix>/bin/msl`, `<prefix>/libexec/msl/` (`msld`, `msl-portd`, `msl-fileviewd`), `<prefix>/share/msl/`, `<prefix>/share/doc/msl/` | `msl --uninstall` |
 | `PATH` | One line in `~/.zshrc`, `~/.bash_profile`, `~/.config/fish/config.fish` or `~/.profile` | Removing the line by hand |
 | LaunchAgent | `~/Library/LaunchAgents/dev.msl.msld.plist`, added the first time you run `msl` | `msl --uninstall` |
 | VS Code extension | Each IDE's extensions folder | `msl --manage-ide --ide all --uninstall`, or `msl --uninstall` |
