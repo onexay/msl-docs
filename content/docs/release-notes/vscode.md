@@ -7,6 +7,12 @@ description: Releases of the MSL extension for VS Code, VS Code Insiders, VSCodi
 
 The MSL extension opens folders inside a distribution from VS Code, VS Code Insiders, VSCodium or Cursor. Its source is in [onexay/msl-vscode-extension](https://github.com/onexay/msl-vscode-extension). Each MSL release bundles one extension release, and `msl --manage-ide` installs it. The extension uses VS Code's proposed remote-resolver API, so it isn't on the Visual Studio Marketplace. See [Get started with VS Code]({{< relref "/docs/tutorials/msl-vscode" >}}).
 
+## 0.2.0
+
+1 October 2026 · bundled with MSL 0.3.0 and later · [GitHub release](https://github.com/onexay/msl-vscode-extension/releases/tag/vscode-0.2.0)
+
+- **Breaking:** needs MSL 0.3.0 or later. Each connection VS Code opens to a distribution (the server connection, forwarded ports) runs as its own `msl --connect` process, so a stuck connection affects only itself. The extension no longer uses `msld`'s connect socket, which MSL 0.3.0 removed.
+
 ## 0.1.1
 
 25 September 2026 · bundled with MSL 0.1.4 and later · [GitHub release](https://github.com/onexay/msl-vscode-extension/releases/tag/vscode-0.1.1)
