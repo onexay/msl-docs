@@ -7,6 +7,27 @@ description: What changed in each release of MSL, newest first.
 
 What changed in each MSL release, newest first. Update to the latest release with `msl --update`. Changes that can break a script or a habit are marked **Breaking**. Each version links to its GitHub release, which has the downloads and checksums.
 
+## 0.3.0
+
+1 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.3.0) · kernel `kernel-6.18.15-msl-a1a22bd`
+
+**Changed**
+
+- **Breaking:** MSL, its service and the VS Code extension are updated together, and the extension from MSL 0.2.0 or earlier can't connect to MSL 0.3.0. After updating from 0.2.0, run `msl --manage-ide --install` once. From then on, `msl --update` also updates the extension in every IDE that has it. See [Upgrade MSL]({{< relref "/docs/install/upgrade" >}}).
+- A command's input and output go straight between `msl` and the VM instead of through `msld` ([#57](https://github.com/onexay/msl/issues/57)). Output through a pipe is about twice as fast (4 GiB in 4.8 s, was 8.2 s), and a slow or stuck command no longer slows down the others. `msl --import`, `--export` and `--install` move their tar streams the same way.
+- Each distribution's disk is attached to the VM when it starts and served by Virtualization.framework, so `fsync` inside a distribution reaches the SSD again: the durability caveat of 0.2.0 no longer applies. A disk that appears while the VM runs (an install, an import, a move to another volume, a resize) restarts the VM if no distribution is running, in about 1.5 s; otherwise it's served more slowly until the VM next restarts. Up to 19 disks are attached at start, and a disk is no longer limited to 4 TB. See [Manage disk space]({{< relref "/docs/how-to/disk-space" >}}).
+- An idle MSL wakes the Mac far less: the idle VM uses about 0.5% CPU, down from 2.5–3.5%.
+- Forwarded ports and `~/.msl/distros` are carried by two processes of their own, `msl-portd` and `msl-fileviewd`, like WSL's `wslrelay.exe`, so `msld` no longer copies their data.
+- MSL bundles [VS Code extension 0.2.0]({{< relref "/docs/release-notes/vscode#020" >}}).
+
+**Fixed**
+
+- `msl --export <distro> -` into a reader that stops early (`| head`) no longer crashes `msl`.
+
+**Removed**
+
+- `MSL_DISK_SLOTS`, with the disk slots it sized.
+
 ## 0.2.0
 
 29 September 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.2.0) · kernel `kernel-6.18.15-msl-a1a22bd`

@@ -16,9 +16,9 @@ This installs the latest release in place and keeps your distributions and setti
 
 These changes can break a script or a habit. Newest first.
 
-### After 0.2.0: update the VS Code extension once
+### 0.3.0: update the VS Code extension once
 
-MSL, its service and the VS Code extension now change together, and an extension from 0.2.0 or earlier can't connect to a newer MSL. After updating from 0.2.0, run `msl --manage-ide --install` once. From then on, `msl --update` updates the extension too.
+MSL, its service and the VS Code extension now change together, and the extension that came with MSL 0.2.0 or earlier can't connect to MSL 0.3.0. After updating from 0.2.0, run `msl --manage-ide --install` once. From then on, `msl --update` updates the extension too.
 
 ### 0.2.0: msld is a LaunchAgent
 
