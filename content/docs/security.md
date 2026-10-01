@@ -53,10 +53,10 @@ With `fileViewTransport = tcp` in `~/.mslconfig`, the view is served on a `127.0
 
 ### Verify a release by hand
 
-The release key is `E880 3CF7 DBA7 8BCB 3F0B  8F1D 43E8 9DC4 4167 036A` (RSA 4096, onexay). It's published on [keys.openpgp.org](https://keys.openpgp.org/search?q=E8803CF7DBA78BCB3F0B8F1D43E89DC44167036A) and at [github.com/onexay.gpg](https://github.com/onexay.gpg).
+The release key is `509D 39A8 78FD EBBB CAF7  B715 FA9B 1101 AF64 043C` (RSA 4096, onexay). It's published on [keys.openpgp.org](https://keys.openpgp.org/search?q=509D39A878FDEBBBCAF7B715FA9B1101AF64043C) and at [github.com/onexay.gpg](https://github.com/onexay.gpg).
 
 ```console
-$ gpg --keyserver hkps://keys.openpgp.org --recv-keys E8803CF7DBA78BCB3F0B8F1D43E89DC44167036A
+$ gpg --keyserver hkps://keys.openpgp.org --recv-keys 509D39A878FDEBBBCAF7B715FA9B1101AF64043C
 $ gpg --verify msl-<version>-macos-arm64.tar.gz.sha256.asc msl-<version>-macos-arm64.tar.gz.sha256
 $ shasum -a 256 -c msl-<version>-macos-arm64.tar.gz.sha256
 ```
