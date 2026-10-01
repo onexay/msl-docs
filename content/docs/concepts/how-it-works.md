@@ -10,7 +10,9 @@ MSL is built the way WSL 2 is: one lightweight Linux VM runs every distribution,
 
 ```text
 msl (command)  ──▶  msld (background service, one per macOS user)
-                      │  runs the VM, forwards ports, serves ~/.msl/distros
+                      │  runs the VM; sets up sessions, forwarded ports, ~/.msl/distros
+                      │  ├─ msl-portd      carries forwarded localhost connections
+                      │  └─ msl-fileviewd  carries ~/.msl/distros
                       ▼
                Linux VM (MSL kernel)
                  ├─ Ubuntu   (its own init and processes)

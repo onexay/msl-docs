@@ -8,7 +8,7 @@ MSL runs Linux distributions in one lightweight virtual machine on behalf of one
 
 ## What runs where
 
-- `msl` and its service, `msld`, run as your macOS user, never as root. `msld` holds one entitlement, `com.apple.security.virtualization`, which Virtualization.framework needs to start a VM.
+- `msl` and its service, `msld`, run as your macOS user, never as root. `msld` holds one entitlement, `com.apple.security.virtualization`, which Virtualization.framework needs to start a VM. The two processes `msld` starts to carry data, `msl-portd` (forwarded ports) and `msl-fileviewd` (`~/.msl/distros`), also run as your user and hold no entitlements.
 - The Linux kernel and every distribution run inside the VM. Root in a distribution is root in that distribution's namespaces, not on macOS.
 - Installing MSL needs no administrator rights, unless you choose a system prefix such as `/usr/local`. MSL installs no kernel extension or login item. Its LaunchAgent, `~/Library/LaunchAgents/dev.msl.msld.plist`, runs nothing at login: launchd starts `msld`, as your user, when you first run `msl`.
 
@@ -39,7 +39,7 @@ MSL never runs macOS programs from Linux, and never puts macOS paths on the Linu
 
 ### The `~/.msl/distros` file view
 
-Each distribution's files are served to macOS over NFSv3 through a Unix socket in MSL's folder (mode 0600), not a network port. macOS's NFS client connects from the kernel as root, so the socket's permissions alone wouldn't stop another local user from mounting it. `msld` therefore checks every NFS call: only calls that carry your user ID or root's (the kernel's own) get through, and a mount is accepted only while `msld` itself is mounting ([#1](https://github.com/onexay/msl/issues/1)). Another local user can't mount the view, and gets an authentication error for anything in your mounts.
+Each distribution's files are served to macOS over NFSv3 through a Unix socket in MSL's folder (mode 0600), not a network port. macOS's NFS client connects from the kernel as root, so the socket's permissions alone wouldn't stop another local user from mounting it. MSL therefore checks every NFS call (in `msl-fileviewd`, which carries the files): only calls that carry your user ID or root's (the kernel's own) get through, and a mount is accepted only while `msld` itself is mounting ([#1](https://github.com/onexay/msl/issues/1)). Another local user can't mount the view, and gets an authentication error for anything in your mounts.
 
 {{< callout type="warning" >}}
 With `fileViewTransport = tcp` in `~/.mslconfig`, the view is served on a `127.0.0.1` port instead. The same checks apply, but any local program can connect to the port and claim any user ID. Don't use that setting on a Mac that other people log in to.
