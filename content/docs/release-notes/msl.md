@@ -141,7 +141,7 @@ What changed in each MSL release, newest first. Update to the latest release wit
 **Changed**
 
 - **Breaking:** distribution files on macOS moved from `~/MSL/<distro>` to `~/.msl/distros/<distro>`, so they no longer add a visible folder to your home directory. Each distribution still appears in Finder under Locations with its logo. On start, `msld` unmounts old `~/MSL` mounts and removes `~/MSL` if it's empty. `MSL_VIEW_DIR` still overrides the location.
-- x86_64-only distributions (Arch Linux, SUSE Linux Enterprise, eLxr) are no longer offered by `msl --list --online`, and `msl --install` refuses them ([#40](https://github.com/onexay/msl/issues/40)). `--install --from-file` still accepts x86_64 images.
+- x86_64-only distributions (Arch Linux, SUSE Linux Enterprise, eLxr) are no longer offered by `msl --list --online`, and `msl --install` refuses them ([#40](https://github.com/onexay/msl/issues/40)). `--install --from-file` accepts x86_64 images, but MSL doesn't support starting x86_64-only distributions.
 - Releases no longer include a `.pkg`. `install.sh` is the way to install MSL, and the only one that sets up IDEs.
 - The VS Code extension has its own releases, `vscode-<version>`, like the kernel. Each MSL release bundles the published one.
 

@@ -10,7 +10,7 @@ MSL aims to behave like WSL 2, so that one set of instructions works on Windows 
 
 | Feature | WSL 2 | MSL |
 |---|---|---|
-| Host | Windows | macOS 26 or later, Apple silicon |
+| Host | Windows | macOS 27 or later, Apple silicon |
 | Command line | `wsl.exe` | `msl`: the same arguments, messages and exit codes |
 | Distribution images | Microsoft's WSL distribution list, `.wsl` images | The same list and images, arm64 variants, unmodified |
 | Architecture | One shared utility VM, per-distribution namespaces | The same |

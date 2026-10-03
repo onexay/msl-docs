@@ -21,7 +21,7 @@ $ msl --list --online      # distributions you can install
 $ msl --install Ubuntu
 ```
 
-MSL needs Apple silicon and macOS 26 or later. [Install MSL]({{< relref "/docs/install/install" >}}) covers the installer's options, and [Troubleshooting]({{< relref "/docs/troubleshooting" >}}) helps if something goes wrong.
+MSL needs Apple silicon and macOS 27 or later. [Install MSL]({{< relref "/docs/install/install" >}}) covers the installer's options, and [Troubleshooting]({{< relref "/docs/troubleshooting" >}}) helps if something goes wrong.
 
 ## Set up your Linux username and password
 

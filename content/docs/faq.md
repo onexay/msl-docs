@@ -28,7 +28,7 @@ MSL keeps one lightweight VM for all your distributions and manages it for you. 
 
 ### Which Macs does MSL run on?
 
-Macs with Apple silicon, running macOS 26 or later. Distributions are arm64. x86_64-only distributions aren't supported yet ([#40](https://github.com/onexay/msl/issues/40)): `msl --list --online` leaves them out, and `msl --install` refuses them.
+Macs with Apple silicon, running macOS 27 or later. Distributions are arm64. x86_64-only distributions aren't supported yet ([#40](https://github.com/onexay/msl/issues/40)): `msl --list --online` leaves them out, and `msl --install` refuses them.
 
 ### Does MSL use a hypervisor?
 

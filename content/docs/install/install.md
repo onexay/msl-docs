@@ -9,7 +9,7 @@ You can install MSL and a Linux distribution with one command, then open a shell
 ## Prerequisites
 
 - A Mac with Apple silicon.
-- macOS 26 or later.
+- macOS 27 or later.
 
 MSL doesn't need administrator rights, unless you install it into a system directory such as `/usr/local`.
 

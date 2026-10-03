@@ -4,7 +4,7 @@ weight: 1
 description: MSL, the Modern Subsystem for Linux, runs Linux distributions on macOS the way WSL runs them on Windows.
 ---
 
-MSL, the Modern Subsystem for Linux, runs a Linux environment on your Mac without a separate virtual machine to set up and manage. The `msl` command is `wsl.exe` for macOS: it takes the same arguments, prints the same output and returns the same exit codes. MSL needs Apple silicon and macOS 26 or later.
+MSL, the Modern Subsystem for Linux, runs a Linux environment on your Mac without a separate virtual machine to set up and manage. The `msl` command is `wsl.exe` for macOS: it takes the same arguments, prints the same output and returns the same exit codes. MSL needs Apple silicon and macOS 27 or later.
 
 Teams split across Windows and macOS usually end up with two developer setups, two sets of instructions and two sets of bugs. With WSL on Windows and MSL on macOS, everyone develops in the same Linux distribution, from the same image, with the same commands, scripts and `wsl.conf`.
 

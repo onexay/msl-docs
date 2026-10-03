@@ -21,7 +21,7 @@ Start with the tools below, then look for your problem in the sections that foll
 
 **`msl: command not found` right after installing.** The installer adds MSL's `bin` directory to `PATH` in your shell's startup file (`~/.zshrc`, `~/.bash_profile`, `~/.config/fish/config.fish` or `~/.profile`). Open a new terminal so the change applies. If you installed with `--no-path`, run `msl` by its full path, for example `~/.local/bin/msl`.
 
-**MSL 0.1.9 doesn't start on macOS 26.** 0.1.9 was built with a newer Xcode than macOS 26 supports, so its `msld` fails to start there. Reinstall with the one-line installer from [Install MSL]({{< relref "/docs/install/install" >}}); your distributions are kept. 0.1.10 and later are fine.
+**`msl needs macOS 27 or later`.** MSL requires macOS 27 or later on Apple silicon. Check your version with `sw_vers -productVersion`; to run MSL, upgrade macOS and follow [Install MSL]({{< relref "/docs/install/install" >}}).
 
 ## Starting distributions
 

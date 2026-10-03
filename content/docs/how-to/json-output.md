@@ -75,7 +75,7 @@ fi
 }
 ```
 
-The list holds the distributions MSL can install on this Mac. `default` marks the one `msl --install` picks when you don't name one.
+The list holds the distributions MSL can install on this Mac. `architectures` lists the image variants Microsoft publishes; an `x86_64` value doesn't mean MSL supports running that architecture. MSL currently installs arm64 images and doesn't support x86_64-only distributions. `emulated` is true when the entry has no arm64 image. `default` marks the one `msl --install` picks when you don't name one.
 
 ## `msl --status --json`
 

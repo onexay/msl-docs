@@ -49,6 +49,6 @@ $ msl -l -v
     link="docs/tutorials/msl-vscode" >}}
   {{< hextra/feature-card
     title="Apple native"
-    subtitle="One lightweight VM on Apple's Virtualization.framework. Apple silicon, macOS 26 or later."
+    subtitle="One lightweight VM on Apple's Virtualization.framework. Apple silicon, macOS 27 or later."
     link="docs/concepts/how-it-works" >}}
 {{< /hextra/feature-grid >}}
