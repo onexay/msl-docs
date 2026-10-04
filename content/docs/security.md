@@ -47,17 +47,15 @@ With `fileViewTransport = tcp` in `~/.mslconfig`, the view is served on a `127.0
 
 ## Releases
 
-- Releases are built by CI and signed ad hoc. They aren't notarised yet. `install.sh` removes the quarantine attribute from the files it installs.
-- Each release's tarball has a SHA-256 checksum file (`.sha256`). Newer releases also sign it with the release key (`.sha256.asc`). `install.sh` always checks the checksum, and checks the signature when `gpg` is installed. v0.1.1 and other releases without a `.sha256.asc` are verified by the checksum alone.
+- The current MSL, kernel and VS Code extension releases are built by GitHub Actions and include SHA-256 checksum files. Their checksums are not PGP-signed.
+- MSL's macOS executables are signed ad hoc, not notarised. `install.sh` checks the MSL archive checksum and removes the macOS quarantine attribute from installed files.
 - If you'd rather not pipe `install.sh` into a shell, read it first: it's short. Or download the release yourself and install it with `--from`; see [Install MSL]({{< relref "/docs/install/install" >}}).
 
-### Verify a release by hand
+### Verify the MSL archive by hand
 
-The release key is `509D 39A8 78FD EBBB CAF7  B715 FA9B 1101 AF64 043C` (RSA 4096, onexay). It's published on [keys.openpgp.org](https://keys.openpgp.org/search?q=509D39A878FDEBBBCAF7B715FA9B1101AF64043C) and at [github.com/onexay.gpg](https://github.com/onexay.gpg).
+Download the MSL archive and its `.sha256` file from the [latest MSL release](https://github.com/onexay/msl/releases/latest), then run:
 
 ```console
-$ gpg --keyserver hkps://keys.openpgp.org --recv-keys 509D39A878FDEBBBCAF7B715FA9B1101AF64043C
-$ gpg --verify msl-<version>-macos-arm64.tar.gz.sha256.asc msl-<version>-macos-arm64.tar.gz.sha256
 $ shasum -a 256 -c msl-<version>-macos-arm64.tar.gz.sha256
 ```
 

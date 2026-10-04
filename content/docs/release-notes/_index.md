@@ -5,7 +5,7 @@ sidebar:
   open: false
 ---
 
-What changed in each release of MSL, its kernel and its VS Code extension.
+What changed in the current MSL, kernel and VS Code extension releases.
 
 {{< cards >}}
   {{< card link="msl" title="MSL" subtitle="The msl command, its service and the installer." >}}
