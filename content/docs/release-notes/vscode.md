@@ -9,8 +9,8 @@ The MSL extension opens folders inside a distribution from VS Code, VS Code Insi
 
 ## v0.1.0
 
-3 October 2026 · bundled with MSL 0.1.0 · [GitHub release](https://github.com/onexay/msl-vscode-extension/releases/tag/v0.1.0)
+4 October 2026 · bundled with MSL 0.1.0 · [GitHub release](https://github.com/onexay/msl-vscode-extension/releases/tag/v0.1.0)
 
 - The standalone VSIX is `msl-0.1.0.vsix`; its release includes `release.sha256`.
-- Built by the release workflow from commit [`6cec07d`](https://github.com/onexay/msl-vscode-extension/commit/6cec07d80c363779ba85eb228ff89a919460c0e7).
+- Built by the release workflow from commit [`64fd4bb`](https://github.com/onexay/msl-vscode-extension/commit/64fd4bbcec22a077c7ccd5e7d399fbebd1c66093).
 - Install it through MSL with `msl --manage-ide`.

@@ -9,7 +9,7 @@ Update MSL to the current release with `msl --update`. Changes that can break a 
 
 ## v0.1.0
 
-3 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.0) · kernel [`v6.18.15+b665f87`](https://github.com/onexay/msl-kernel/releases/tag/v6.18.15%2Bb665f87) · VS Code extension [`v0.1.0`](https://github.com/onexay/msl-vscode-extension/releases/tag/v0.1.0)
+4 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.0) · kernel [`v6.18.15+0752837`](https://github.com/onexay/msl-kernel/releases/tag/v6.18.15%2B0752837) · VS Code extension [`v0.1.0`](https://github.com/onexay/msl-vscode-extension/releases/tag/v0.1.0)
 
 **Changed**
 
