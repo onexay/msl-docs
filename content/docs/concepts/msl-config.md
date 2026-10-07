@@ -9,7 +9,7 @@ MSL reads the same two settings files as WSL. `~/.mslconfig` (the `.wslconfig` e
 | | `~/.mslconfig` | `/etc/wsl.conf` |
 |---|---|---|
 | Scope | The VM, so every distribution | One distribution |
-| Configures | Memory, processors, kernel, localhost forwarding, DNS, nested virtualization, idle timeouts, disk size | systemd, a boot command, the default user, the `/mnt/macos` mount, hostname and generated network files |
+| Configures | Memory, processors, kernel, localhost forwarding, proxy and DNS settings, nested virtualization, idle timeouts, disk size | systemd, a boot command, the default user, the `/mnt/macos` mount, hostname and generated network files |
 | Location | Your macOS home directory (`MSL_CONFIG` overrides the path) | `/etc` inside the distribution |
 | Applies | At the next VM start | At the next start of the distribution |
 
@@ -143,6 +143,8 @@ Section: `[msl2]` (or `[wsl2]`)
 | `kernel` | path | The kernel bundled with MSL | A custom arm64 Linux kernel image. |
 | `kernelCommandLine` | string | none | Extra kernel command-line arguments, added after MSL's own. |
 | `localhostForwarding` | boolean | `true` | Makes TCP ports that Linux programs listen on reachable on `localhost` on macOS. See [Networking]({{< relref "/docs/concepts/networking#localhost" >}}). |
+| `autoProxy` | boolean | `true` | Copies the Mac's HTTP and HTTPS proxy settings, proxy exceptions and PAC URL into each new distro session. Proxy values become `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` (also lowercase); a PAC URL becomes `MSL_PAC_URL` and `WSL_PAC_URL`. Proxy or PAC settings on loopback are skipped because the distro cannot reach the Mac's loopback. Existing sessions keep their environment. |
+| `dnsProxy` | boolean | `true` | When `dnsTunneling = false`, `true` keeps the VM network's DNS server; `false` uses the Mac's global DNS servers. See [Networking]({{< relref "/docs/concepts/networking#dns" >}}). |
 | `dnsTunneling` | boolean | `true` | `true` resolves names through macOS's resolver. `false` uses the VM network's DNS server. |
 | `nestedVirtualization` | boolean | `true` | Lets the VM run virtual machines of its own: `/dev/kvm` exists in the distributions on a Mac with an M3 chip or later (MSL's kernel has KVM; a custom `kernel` needs it too). `msl --status` shows whether it's on. |
 | `vmIdleTimeout` | number | `60000` | Milliseconds the VM waits after the last distribution stops before it shuts down. `-1` keeps it running. |
