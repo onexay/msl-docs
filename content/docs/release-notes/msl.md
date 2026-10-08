@@ -7,6 +7,16 @@ description: The current MSL release and its changes.
 
 Update MSL to the current release with `msl --update`. Changes that can break a script or a habit are marked **Breaking**.
 
+## v0.1.1
+
+MSL release · 8 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.1)
+
+### Added
+- Mirror macOS proxy settings into new distro sessions with `autoProxy`, and optionally use the Mac's DNS servers with `dnsProxy` when DNS tunneling is off.
+
+### Fixed
+- Check ext4 disks with recorded filesystem errors before mounting them.
+
 ## v0.1.0
 
 4 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.0) · kernel [`v6.18.15+0752837`](https://github.com/onexay/msl-kernel/releases/tag/v6.18.15%2B0752837) · VS Code extension [`v0.1.0`](https://github.com/onexay/msl-vscode-extension/releases/tag/v0.1.0)

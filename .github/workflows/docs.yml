@@ -1,10 +1,13 @@
 # Build the site on every push and pull request (a broken relref fails the
-# build), and deploy main to GitHub Pages: https://onexay.github.io/msl-docs/
+# build), and deploy main to GitHub Pages. Check upstream releases every 15
+# minutes and deploy when their changelogs add a new release note.
 name: Docs
 on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 permissions:
   contents: read
@@ -13,12 +16,52 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build
+  sync:
+    name: Sync release notes
+    if: github.event_name == 'schedule'
+    permissions:
+      contents: write
+    outputs:
+      changed: ${{ steps.publish.outputs.changed }}
+      sha: ${{ steps.publish.outputs.sha }}
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: main
+          fetch-depth: 0
+      - name: Update pages from published releases
+        run: python3 scripts/update-release-notes.py
+      - name: Commit release note updates
+        id: publish
+        run: |
+          if git diff --quiet -- content/docs/release-notes; then
+            echo "No release-note changes."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/docs/release-notes/msl.md content/docs/release-notes/kernel.md content/docs/release-notes/vscode.md
+          git commit -s -m "Refresh release notes"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Build
+    needs: sync
+    if: >-
+      always() &&
+      (github.event_name != 'schedule' ||
+       (needs.sync.result == 'success' && needs.sync.outputs.changed == 'true'))
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.sync.outputs.sha || github.sha }}
           fetch-depth: 0          # enableGitInfo: last-updated dates
       - uses: actions/setup-go@v7
         with:
