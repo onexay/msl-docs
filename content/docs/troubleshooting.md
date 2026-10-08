@@ -54,6 +54,8 @@ See [systemd]({{< relref "/docs/concepts/systemd" >}}) and [Advanced settings co
 
 **A distribution's disk is slow, and `df /` in it shows `/dev/loop…`.** Its disk was added (installed, imported, moved to another volume or resized) while another distribution was running, so it's mounted through the Mac file share until the VM restarts. Stop the distributions and run `msl --shutdown`; from the next start the disk is attached normally. See [How disks are attached]({{< relref "/docs/how-to/disk-space#how-disks-are-attached" >}}).
 
+**Ext4 reports filesystem errors at startup.** MSL checks ext4 disks before mounting them when the filesystem has recorded errors. If `e2fsck` can repair them, MSL mounts the disk; if it cannot, the disk stays unmounted and the checker output appears in `~/Library/Application Support/msl/console.log` ([#16](https://github.com/onexay/msl/issues/16)).
+
 **A build is slow, or file names clash, under `/mnt/macos`.** Files under `/mnt/macos` live on macOS: access is slower than the distribution's own disk, and names are usually case-insensitive. Work in your Linux home directory instead. See [Working across file systems]({{< relref "/docs/concepts/filesystems" >}}).
 
 **A path from an old script doesn't exist.** MSL 0.1.7 renamed `/mnt/mac` to `/mnt/macos`, and the `MSL_MAC_*` variables to `MSL_MACOS_*`. There's no compatibility link.
