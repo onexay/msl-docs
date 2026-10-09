@@ -5,7 +5,7 @@ weight: 1
 description: The current MSL release and its changes.
 ---
 
-Update MSL to the current release with `msl --update`. Changes that can break a script or a habit are marked **Breaking**.
+Update MSL to the current release with `msl --update`. These notes follow the release notes published with each GitHub release.
 
 ## v0.1.1
 

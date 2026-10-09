@@ -1,13 +1,11 @@
-# Build the site on every push and pull request (a broken relref fails the
-# build), and deploy main to GitHub Pages. Check upstream releases every 15
-# minutes and deploy when their changelogs add a new release note.
+# Pull requests and pushes to main build the site. Publishing is manual: the
+# dispatch checks upstream GitHub releases, updates release notes, and deploys
+# the resulting site when it finds new releases.
 name: Docs
 on:
   push:
     branches: [main]
   pull_request:
-  schedule:
-    - cron: "*/15 * * * *"
   workflow_dispatch:
 permissions:
   contents: read
@@ -18,7 +16,7 @@ concurrency:
 jobs:
   sync:
     name: Sync release notes
-    if: github.event_name == 'schedule'
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
     outputs:
@@ -36,7 +34,7 @@ jobs:
         id: publish
         run: |
           if git diff --quiet -- content/docs/release-notes; then
-            echo "No release-note changes."
+            echo "No new releases to publish."
             echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
@@ -55,7 +53,7 @@ jobs:
     needs: sync
     if: >-
       always() &&
-      (github.event_name != 'schedule' ||
+      (github.event_name != 'workflow_dispatch' ||
        (needs.sync.result == 'success' && needs.sync.outputs.changed == 'true'))
     runs-on: ubuntu-24.04
     steps:
@@ -78,15 +76,15 @@ jobs:
           name: site
           path: public/
           if-no-files-found: error
-      - if: github.event_name != 'pull_request'
+      - if: github.event_name == 'workflow_dispatch'
         uses: actions/configure-pages@v6
-      - if: github.event_name != 'pull_request'
+      - if: github.event_name == 'workflow_dispatch'
         uses: actions/upload-pages-artifact@v5
         with: { path: public }
 
   deploy:
     name: Deploy
-    if: github.event_name != 'pull_request'
+    if: github.event_name == 'workflow_dispatch'
     needs: build
     runs-on: ubuntu-24.04
     permissions:
