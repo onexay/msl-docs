@@ -21,6 +21,7 @@ PROJECTS = (
     ("msl-vscode-extension", "vscode.md", "MSL VS Code extension release"),
 )
 RELEASE_HEADING = re.compile(r"(?m)^## (.+?)\s*$")
+RELEASE_METADATA = re.compile(r"(?mi)^Install:\s|^\|\s*\|\s*\|\s*$")
 
 
 @dataclass(frozen=True)
@@ -84,18 +85,24 @@ def is_documented(page: str, tag: str) -> bool:
     return bool(re.search(rf"(?m)^## {re.escape(tag)}\s*$", page))
 
 
+def release_notes(body: str) -> str:
+    metadata = RELEASE_METADATA.search(body)
+    return body[:metadata.start()].strip() if metadata else body.strip()
+
+
 def release_block(release: Release, description: str) -> str:
-    if not release.body:
+    notes = release_notes(release.body)
+    if not notes:
         raise RuntimeError(
-            f"Release {release.tag} at {release.url} has an empty body; "
-            "publish it with GitHub-generated release notes before syncing"
+            f"Release {release.tag} at {release.url} has no release notes before "
+            "its install and asset metadata; publish it with generated notes before syncing"
         )
     date = release.published_datetime.strftime("%d %B %Y").lstrip("0")
     status = "**Pre-release** · " if release.prerelease else ""
     return (
         f"## {release.tag}\n\n"
         f"{status}{description} · {date} · [GitHub release]({release.url})\n\n"
-        f"{release.body}\n"
+        f"{notes}\n"
     )
 
 
