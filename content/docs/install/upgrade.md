@@ -1,7 +1,7 @@
 ---
 title: Update and uninstall MSL
 weight: 3
-description: Update MSL to a new release, check for breaking changes, and remove MSL.
+description: Update MSL to a new release or remove it.
 ---
 
 ## Update MSL
@@ -11,47 +11,6 @@ $ msl --update
 ```
 
 This installs the latest release in place and keeps your distributions and settings, and updates the VS Code extension in each IDE that has it. `msl --update --pre-release` installs a pre-release if one is available. [Release notes]({{< relref "/docs/release-notes" >}}) lists what changed.
-
-## Breaking changes
-
-These changes can break a script or a habit. Newest first.
-
-### 0.3.0: update the VS Code extension once
-
-MSL, its service and the VS Code extension now change together, and the extension that came with MSL 0.2.0 or earlier can't connect to MSL 0.3.0. After updating from 0.2.0, run `msl --manage-ide --install` once. From then on, `msl --update` updates the extension too.
-
-### 0.2.0: msld is a LaunchAgent
-
-The first `msl` command after updating adds `~/Library/LaunchAgents/dev.msl.msld.plist`, and launchd starts `msld` from then on, still only when `msl` needs it. It lets MSL shut the VM down cleanly when you log out, restart or shut down the Mac. `msl --uninstall` removes it; `launchctl bootout gui/$(id -u)/dev.msl.msld` stops it.
-
-### 0.2.0: each distribution gets its own disk
-
-New distributions get their own disk, `ext4.img` in their install location, instead of a directory on the shared `data.img`. Existing distributions keep working from `data.img`; move one onto its own disk with `msl --manage <distro> --move <folder>`. `--manage --resize` now grows one distribution's disk (it must be stopped) rather than `data.img` for all of them, and `msl --unregister` deletes the distribution's `ext4.img`. `fsync` inside a distribution on its own disk isn't a durability point; see [Durability]({{< relref "/docs/how-to/disk-space#durability" >}}).
-
-### 0.1.10: reinstall on macOS 26 if you have 0.1.9
-
-MSL 0.1.9 was built with an Xcode newer than MSL's minimum macOS, and its service doesn't start on macOS 26. If you installed 0.1.9 on macOS 26, reinstall with the one-line installer from [Install MSL]({{< relref "/docs/install/install" >}}). Your distributions are kept. On macOS 27, `msl --update` is enough.
-
-### 0.1.7: `/mnt/mac` is now `/mnt/macos`
-
-| Before 0.1.7 | From 0.1.7 |
-|---|---|
-| macOS files at `/mnt/mac` | `/mnt/macos` |
-| With `[automount] root=/`: `/mac` | `/macos` |
-| `MSL_MAC_USER`, `MSL_MAC_HOME`, `MSL_MAC_VIEW` | `MSL_MACOS_USER`, `MSL_MACOS_HOME`, `MSL_MACOS_VIEW` |
-| `msl --version --json`: key `macOS` | key `macos` |
-
-Update scripts, shell profiles and editor settings that use the old names. There's no link from `/mnt/mac`.
-
-### 0.1.6: `--manage --move` is refused
-
-`msl --manage <distro> --move <location>` used to report success without moving anything, because every distribution lived on one shared disk. From 0.1.6 it fails with "not supported", until the next release, which gives each distribution its own disk and makes `--move` work.
-
-The VM section of `~/.mslconfig` is now `[msl2]`. `[wsl2]` still works, so a copied `.wslconfig` needs no change.
-
-### 0.1.4: distribution files moved to `~/.msl/distros`
-
-Distribution files on macOS moved from `~/MSL/<distro>` to `~/.msl/distros/<distro>`. Finder still lists each distribution under Locations.
 
 ## Uninstall MSL
 
