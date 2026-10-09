@@ -7,6 +7,18 @@ description: The current MSL release and its changes.
 
 Update MSL to the current release with `msl --update`. These notes follow the release notes published with each GitHub release.
 
+## v0.1.2
+
+MSL release · 9 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.2)
+
+### Added
+- Mirror macOS proxy settings into new distro sessions with `autoProxy`, and optionally use the Mac's DNS servers with `dnsProxy` when DNS tunneling is off.
+
+### Fixed
+- Check ext4 disks with recorded filesystem errors before mounting them.
+- Stop the launchd-managed service cleanly during updates.
+- Verify `0x`-prefixed SHA-256 values in the distro list.
+
 ## v0.1.1
 
 MSL release · 8 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.1)
