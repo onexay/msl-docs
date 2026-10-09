@@ -1,6 +1,6 @@
 # Pull requests and pushes to main build the site. Publishing is manual: the
 # dispatch checks upstream GitHub releases, updates release notes, and deploys
-# the resulting site when it finds new releases.
+# the current site after a successful sync.
 name: Docs
 on:
   push:
@@ -54,7 +54,7 @@ jobs:
     if: >-
       always() &&
       (github.event_name != 'workflow_dispatch' ||
-       (needs.sync.result == 'success' && needs.sync.outputs.changed == 'true'))
+       needs.sync.result == 'success')
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
