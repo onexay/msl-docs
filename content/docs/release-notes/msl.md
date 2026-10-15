@@ -7,6 +7,20 @@ description: The current MSL release and its changes.
 
 Update MSL to the current release with `msl --update`. These notes follow the release notes published with each GitHub release.
 
+## v0.1.3
+
+MSL release · 15 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.3)
+
+## What's Changed
+* Generate MSL release notes on GitHub by @onexay in https://github.com/onexay/msl/pull/24
+* Pin GitHub Actions to commit SHAs by @onexay in https://github.com/onexay/msl/pull/25
+* Delegate cgroups to distro-local managers by @onexay in https://github.com/onexay/msl/pull/29
+* Bump github.com/apple/containerization from 0.48.0 to 0.49.0 in the swift group by @dependabot[bot] in https://github.com/onexay/msl/pull/27
+* Bump the rust group in /guest with 2 updates by @dependabot[bot] in https://github.com/onexay/msl/pull/26
+
+
+**Full Changelog**: https://github.com/onexay/msl/compare/v0.1.2...v0.1.3
+
 ## v0.1.2
 
 MSL release · 9 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.2)
