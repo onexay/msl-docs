@@ -7,6 +7,18 @@ description: The current MSL release and its changes.
 
 Update MSL to the current release with `msl --update`. These notes follow the release notes published with each GitHub release.
 
+## v0.1.4
+
+MSL release · 15 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.4)
+
+## What's Changed
+* Skip directory entries the NFS server can't stat by @onexay in https://github.com/onexay/msl/pull/33
+* Keep the NFS server out of PID 1 by @onexay in https://github.com/onexay/msl/pull/34
+* Stop the VM when its kernel panics by @onexay in https://github.com/onexay/msl/pull/35
+
+
+**Full Changelog**: https://github.com/onexay/msl/compare/v0.1.3...v0.1.4
+
 ## v0.1.3
 
 MSL release · 15 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.3)
