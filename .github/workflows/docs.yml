@@ -24,22 +24,10 @@ jobs:
       sha: ${{ steps.publish.outputs.sha }}
     runs-on: ubuntu-24.04
     steps:
-      - name: Check release sync token
-        env:
-          MSL_DOCS_PUSH_TOKEN: ${{ secrets.MSL_DOCS_PUSH_TOKEN }}
-        run: |
-          if [ -z "$MSL_DOCS_PUSH_TOKEN" ]; then
-            echo "::error::Set the MSL_DOCS_PUSH_TOKEN Actions secret to a fine-grained token owned by onexay with Contents: Read and write access to this repository."
-            exit 1
-          fi
       - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
-          # GITHUB_TOKEN is authenticated as the Actions app, which cannot
-          # bypass this personal repository's main ruleset. This token must
-          # belong to the repository owner and have contents:write access.
-          token: ${{ secrets.MSL_DOCS_PUSH_TOKEN }}
       - name: Update pages from published releases
         run: python3 scripts/update-release-notes.py
       - name: Commit release note updates
