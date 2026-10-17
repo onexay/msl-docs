@@ -1,0 +1,271 @@
+/* Keep Hextra's familiar docs layout while giving navigation cards clearer feedback. */
+.hextra-card,
+.hextra-feature-card {
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.hextra-card:focus-visible,
+.hextra-feature-card:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .hextra-card:hover,
+  .hextra-feature-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.hextra-card:hover,
+.hextra-feature-card:hover {
+  border-color: #93c5fd;
+}
+
+.dark .hextra-card:hover,
+.dark .hextra-feature-card:hover {
+  border-color: #3b82f6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hextra-card,
+  .hextra-feature-card {
+    transition: none;
+  }
+}
+
+main#content:has(.msl-home-hero) {
+  padding-top: 1.5rem;
+}
+
+.msl-home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(19rem, 0.95fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  width: 100%;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  overflow: hidden;
+  color: #f8fafc;
+  background:
+    radial-gradient(ellipse at 90% 5%, rgb(37 99 235 / 34%), transparent 38%),
+    linear-gradient(130deg, #0b1220 0%, #111d33 58%, #14294b 100%);
+  border: 1px solid #1e3a5f;
+  border-radius: 1.5rem;
+  box-shadow: 0 24px 64px rgb(15 23 42 / 16%);
+}
+
+.msl-home-copy {
+  max-width: 42rem;
+}
+
+.msl-home-eyebrow {
+  margin: 0 0 0.9rem;
+  color: #93c5fd;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.msl-home-copy h1 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(2.6rem, 5.5vw, 4.75rem);
+  font-weight: 750;
+  letter-spacing: -0.055em;
+  line-height: 1.02;
+}
+
+.msl-home-lede {
+  max-width: 36rem;
+  margin: 1.25rem 0 0;
+  color: #cbd5e1;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.msl-home-lede code {
+  color: #dbeafe;
+  background: rgb(148 163 184 / 16%);
+}
+
+.msl-home-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.75rem;
+}
+
+.msl-home-primary,
+.msl-home-secondary {
+  display: inline-flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1.15rem;
+  border: 1px solid transparent;
+  border-radius: 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.msl-home-primary {
+  color: #fff;
+  background: #2563eb;
+}
+
+.msl-home-primary:hover {
+  color: #fff;
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.msl-home-secondary {
+  color: #e2e8f0;
+  border-color: #475569;
+  background: rgb(15 23 42 / 35%);
+}
+
+.msl-home-secondary:hover {
+  color: #fff;
+  border-color: #93c5fd;
+  background: rgb(30 41 59 / 72%);
+}
+
+.msl-home-primary:focus-visible,
+.msl-home-secondary:focus-visible {
+  outline: 3px solid #bfdbfe;
+  outline-offset: 3px;
+}
+
+.msl-home-requirements {
+  margin: 1.3rem 0 0;
+  color: #94a3b8;
+  font-size: 0.82rem;
+}
+
+.msl-home-terminal {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #334155;
+  border-radius: 1rem;
+  background: #080f1b;
+  box-shadow: 0 20px 50px rgb(0 0 0 / 30%);
+}
+
+.msl-terminal-titlebar {
+  display: flex;
+  min-height: 2.9rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0 1rem;
+  color: #cbd5e1;
+  border-bottom: 1px solid #1e293b;
+  font-size: 0.76rem;
+}
+
+.msl-terminal-dots,
+.msl-terminal-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.msl-terminal-dots i,
+.msl-terminal-state i {
+  display: block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: #fb7185;
+}
+
+.msl-terminal-dots i:nth-child(2) {
+  background: #fbbf24;
+}
+
+.msl-terminal-dots i:nth-child(3) {
+  background: #34d399;
+}
+
+.msl-terminal-state {
+  color: #86efac;
+}
+
+.msl-terminal-state i {
+  width: 0.45rem;
+  height: 0.45rem;
+  background: #4ade80;
+}
+
+.msl-home-terminal pre {
+  margin: 0;
+  overflow-x: auto;
+  padding: 1.35rem 1.5rem 1.6rem;
+  color: #e2e8f0;
+  background: transparent;
+  font-size: clamp(0.76rem, 1.1vw, 0.9rem);
+  line-height: 1.9;
+}
+
+.msl-home-terminal code {
+  color: inherit;
+  background: transparent;
+}
+
+.msl-terminal-prompt {
+  color: #60a5fa;
+}
+
+.msl-terminal-comment {
+  color: #94a3b8;
+}
+
+.msl-home-capabilities {
+  width: 100%;
+  margin-top: clamp(3rem, 7vw, 5.5rem);
+}
+
+.msl-home-capabilities h2 {
+  max-width: 42rem;
+  margin: 0 0 1.5rem;
+  color: #0f172a;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+}
+
+.dark .msl-home-capabilities h2 {
+  color: #f8fafc;
+}
+
+@media (max-width: 760px) {
+  .msl-home-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    border-radius: 1.1rem;
+  }
+
+  .msl-home-terminal pre {
+    padding: 1rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msl-home-primary,
+  .msl-home-secondary {
+    transition: none;
+  }
+}
