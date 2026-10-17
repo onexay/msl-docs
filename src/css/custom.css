@@ -1,0 +1,35 @@
+:root {
+  --ifm-color-primary: #1769d2;
+  --ifm-color-primary-dark: #155fc0;
+  --ifm-color-primary-darker: #145ab5;
+  --ifm-color-primary-darkest: #104a95;
+  --ifm-color-primary-light: #2877dc;
+  --ifm-color-primary-lighter: #3480e0;
+  --ifm-color-primary-lightest: #5595e8;
+  --ifm-code-font-size: 92%;
+  --ifm-font-size-base: 16px;
+  --ifm-navbar-height: 4rem;
+}
+
+[data-theme='dark'] {
+  --ifm-color-primary: #79adff;
+  --ifm-color-primary-dark: #5797ff;
+  --ifm-color-primary-darker: #448aff;
+  --ifm-color-primary-darkest: #116aff;
+  --ifm-color-primary-light: #9bc3ff;
+  --ifm-color-primary-lighter: #aed0ff;
+  --ifm-color-primary-lightest: #d4e5ff;
+}
+
+.navbar {
+  box-shadow: 0 1px 0 var(--ifm-color-emphasis-200);
+}
+
+.theme-doc-markdown h2 {
+  margin-top: 2rem;
+}
+
+.theme-doc-sidebar-item-link-level-1.menu__link--active,
+.theme-doc-sidebar-item-category-level-1 .menu__link--active {
+  font-weight: 650;
+}

@@ -14,7 +14,7 @@ from urllib.request import Request, urlopen
 
 
 ROOT = Path(__file__).resolve().parents[1]
-NOTES = ROOT / "content/docs/release-notes"
+NOTES = ROOT / "docs/release-notes"
 PROJECTS = (
     ("msl", "msl.md", "MSL release"),
     ("msl-kernel", "kernel.md", "Linux kernel release"),
