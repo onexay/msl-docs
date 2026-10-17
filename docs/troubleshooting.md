@@ -1,0 +1,119 @@
+---
+title: Troubleshooting MSL
+sidebar_position: 8
+description: Where to find MSL's logs and status, and fixes for common problems with installing, starting, files, networking, disk space and VS Code.
+---
+
+Start with the tools below, then look for your problem in the sections that follow. If it isn't there, [report a bug](#report-a-bug).
+
+## Where to look
+
+| Tool | What it tells you |
+|---|---|
+| `msl --status` | The default distribution, the VM's effective settings (memory, CPUs, kernel, networking, idle timeouts), how much the distributions' disks use on macOS, whether nested virtualization is on, and any `~/.mslconfig` changes waiting for a restart. |
+| `msl --version` | The MSL, kernel and macOS versions. |
+| `~/Library/Application Support/msl/msld.log` | The service's log: VM starts and stops, idle timeouts, port forwarding, errors. |
+| `~/Library/Application Support/msl/console.log` | The VM's console output, including the Linux kernel's messages. |
+| `MSL_ERROR_CODES=1 msl …` | Adds WSL-style `Error code:` lines to error messages. |
+| `msl --debug-shell` | A root BusyBox shell in the VM itself, outside every distribution. |
+
+## Installation
+
+**`msl: command not found` right after installing.** The installer adds MSL's `bin` directory to `PATH` in your shell's startup file (`~/.zshrc`, `~/.bash_profile`, `~/.config/fish/config.fish` or `~/.profile`). Open a new terminal so the change applies. If you installed with `--no-path`, run `msl` by its full path, for example `~/.local/bin/msl`.
+
+**`msl needs macOS 27 or later`.** MSL requires macOS 27 or later on Apple silicon. Check your version with `sw_vers -productVersion`; to run MSL, upgrade macOS and follow [Install MSL](./install/install.md).
+
+## Starting distributions
+
+**The first-run setup mentions Windows.** Some distributions' setup scripts print WSL wording, such as "Provisioning the new WSL instance". That's their stock text. MSL skips the setup steps that need Windows.
+
+**A distribution is x86_64-only.** Not supported yet ([#40](https://github.com/onexay/msl/issues/40)). `msl --list --online` leaves these distributions out, and `msl --install` refuses them.
+
+**A program fails with page-size errors, or won't start.** MSL's kernel uses 16 KiB memory pages, like the Mac itself, because 4 KiB pages in the VM hit a Virtualization.framework problem that corrupts memory when macOS runs short of it ([#48](https://github.com/onexay/msl/issues/48)). `getconf PAGESIZE` shows `16384`. Current distributions work with this, including allocators such as jemalloc. A program built on the assumption of 4 KiB pages (for example with `--with-lg-page=12`) fails to start or to map files on any 16 KiB or 64 KiB Arm Linux. Use your distribution's package, or rebuild the program without that assumption.
+
+**A server, database or container stops when I close the terminal.** A distribution stops about 15 seconds after its last `msl` session ends. Only `msl` sessions count as activity (shells, `msl -e` commands, VS Code connections), not services running in the distribution, even under systemd. To keep distributions running, set this in `~/.mslconfig` and run `msl --shutdown` so it applies:
+
+```ini
+[general]
+instanceIdleTimeout = -1
+```
+
+See [systemd](./concepts/systemd.md) and [Advanced settings configuration](./concepts/msl-config.md).
+
+**A `~/.mslconfig` change has no effect.** VM settings apply the next time the VM starts. `msl --status` lists changes that are still pending; `msl --shutdown` stops the VM so the next command starts it with them.
+
+**"msld is shutting down".** macOS is logging out or restarting, or `msld` was stopped (`launchctl bootout`). It stops the distributions and flushes their disks, which takes a few seconds; run the command again after that. To see whether launchd runs `msld`: `launchctl print gui/$(id -u)/dev.msl.msld`.
+
+**MSL uses more memory than the distributions need.** Virtualization.framework doesn't give memory back to macOS while the VM runs, so it returns only when the VM stops: after `vmIdleTimeout` with nothing running, or with `msl --shutdown`. `autoMemoryReclaim` has no effect on macOS. [#37](https://github.com/onexay/msl/issues/37) explains why. To cap what the VM can take, set `memory` in `~/.mslconfig`.
+
+## Clock differences
+
+Compare UTC on macOS and inside a distribution:
+
+```console
+$ date -u
+$ msl -d Ubuntu -e date -u
+```
+
+MSL corrects the shared Linux clock when the VM starts, after the Mac wakes and when the host clock changes. Every running distribution receives the same correction. `timedatectl` can still report NTP inactive because MSL uses the virtual hardware clock rather than a distribution's network time service.
+
+Older MSL builds can retain a large clock offset ([#38](https://github.com/onexay/msl/issues/38)). Update MSL, save your work, then run `msl --shutdown` and reopen a distribution. Shutdown stops all distributions and their running programs.
+
+If the problem persists, check `msld.log` for `clock: synchronization failed` and report the UTC comparison and `msl --version`. A custom kernel needs a working RTC driver and the sysfs RTC interface.
+
+## Files
+
+**`~/.msl/distros` is empty.** The folders there are mounts that exist only while the VM runs. Start any distribution, for example with `msl -e true`, and they come back.
+
+**A distribution is missing from `~/.msl/distros`.** The VM attaches up to 19 distribution disks when it starts. With more distributions than that, the others appear once you use one, for example with `msl -d <Distro> -e true`.
+
+**A distribution's disk is slow, and `df /` in it shows `/dev/loop…`.** Its disk was added (installed, imported, moved to another volume or resized) while another distribution was running, so it's mounted through the Mac file share until the VM restarts. Stop the distributions and run `msl --shutdown`; from the next start the disk is attached normally. See [How disks are attached](./how-to/disk-space.md#how-disks-are-attached).
+
+**Ext4 reports filesystem errors at startup.** MSL checks ext4 disks before mounting them when the filesystem has recorded errors. If `e2fsck` can repair them, MSL mounts the disk; if it cannot, the disk stays unmounted and the checker output appears in `~/Library/Application Support/msl/console.log` ([#16](https://github.com/onexay/msl/issues/16)).
+
+**A build is slow, or file names clash, under `/mnt/macos`.** Files under `/mnt/macos` live on macOS: access is slower than the distribution's own disk, and names are usually case-insensitive. Work in your Linux home directory instead. See [Working across file systems](./concepts/filesystems.md).
+
+**A path from an old script doesn't exist.** MSL 0.1.7 renamed `/mnt/mac` to `/mnt/macos`, and the `MSL_MAC_*` variables to `MSL_MACOS_*`. There's no compatibility link.
+
+## Networking
+
+**A port isn't reachable from macOS.** MSL forwards ports that servers in a distribution listen on, on `localhost` or on all addresses. If macOS already uses the port, MSL skips it and logs that in `msld.log`; stop the macOS program or use another port. Check also that `localhostForwarding` isn't `false` in `~/.mslconfig`, and that the distribution is still running (see the idle stop above).
+
+**Names don't resolve, or resolve differently from macOS.** Distributions resolve names through macOS's resolver, so VPNs, split DNS, `/etc/resolver` entries and `.local` names behave as on macOS. If they don't, check whether `dnsTunneling = false` is set in `~/.mslconfig`, or whether the distribution keeps its own `/etc/resolv.conf` (`generateResolvConf = false` in `/etc/wsl.conf`). See [Networking](./concepts/networking.md).
+
+## Disk space
+
+**A distribution's `ext4.img` stays large after deleting files.** Deleting files frees space inside the disk, not on macOS. MSL hands freed space back when the VM shuts down; to do it now, run `msl --manage <Distro> --compact`.
+
+**A distribution runs out of space.** Each distribution has its own disk. `df -h /` in the distribution shows what's free. Stop the distribution and grow its disk:
+
+```console
+$ msl --terminate Ubuntu
+$ msl --manage Ubuntu --resize 512GB
+```
+
+A distribution from MSL 0.1.11 or earlier is still on the shared `data.img`; growing that needs every distribution stopped (`msl --shutdown`), or move the distribution to a disk of its own with `msl --manage <Distro> --move <folder>`.
+
+If `msl --status` warns that macOS is nearly out of space, free space on macOS first: the disks are sparse, so the distributions can't see that macOS has run out, and their writes fail when it does. See [Manage disk space](./how-to/disk-space.md).
+
+## VS Code
+
+**"No remote extension installed to resolve msl".** The extension didn't start. The IDE's extension host log (**Output › Log (Extension Host)**) shows `CANNOT use API proposal: resolvers`. Run `msl --manage-ide`, or add `"enable-proposed-api": ["onexay.msl"]` to `argv.json` yourself with **Preferences: Configure Runtime Arguments**. Then quit the IDE with ⌘Q; closing the window isn't enough.
+
+**VS Code can't connect to a distribution after updating MSL.** The extension is older than MSL. Run `msl --manage-ide --install`, then reload the window.
+
+**"msl --list --verbose --json exited with 255".** The extension found an MSL older than 0.1.3. Run `msl --manage-ide --install` with the MSL you want it to use, or set the `msl.path` setting.
+
+**`bash: warning: setlocale: … cannot change locale` in the terminal.** The VS Code Server started without the distribution's locale. MSL 0.1.9 and later start it with the locale from `/etc/default/locale`. After updating, reload the window or run `msl --shutdown`.
+
+The extension's own log is under **Output › MSL**. See [Get started with VS Code](./tutorials/msl-vscode.md).
+
+## Report a bug
+
+Open a [bug report](https://github.com/onexay/msl/issues/new/choose) with:
+
+- the output of `msl --version` and `msl --status`;
+- the steps that reproduce the problem;
+- the relevant lines from `msld.log` and `console.log`, with anything private removed.
+
+Report security problems privately instead, as described in [Security model](./security.md).
