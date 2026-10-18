@@ -7,6 +7,16 @@ description: The current MSL release and its changes.
 
 Update MSL to the current release with `msl --update`. These notes follow the release notes published with each GitHub release.
 
+## v0.1.5
+
+MSL release · 18 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.5)
+
+## What's Changed
+* Keep distro clocks aligned after host sleep by @onexay in https://github.com/onexay/msl/pull/39
+
+
+**Full Changelog**: https://github.com/onexay/msl/compare/v0.1.4...v0.1.5
+
 ## v0.1.4
 
 MSL release · 15 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.4)
