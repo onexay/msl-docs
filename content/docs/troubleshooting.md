@@ -46,6 +46,21 @@ See [systemd]({{< relref "/docs/concepts/systemd" >}}) and [Advanced settings co
 
 **MSL uses more memory than the distributions need.** Virtualization.framework doesn't give memory back to macOS while the VM runs, so it returns only when the VM stops: after `vmIdleTimeout` with nothing running, or with `msl --shutdown`. `autoMemoryReclaim` has no effect on macOS. [#37](https://github.com/onexay/msl/issues/37) explains why. To cap what the VM can take, set `memory` in `~/.mslconfig`.
 
+## Clock differences
+
+Compare UTC on macOS and inside a distribution:
+
+```console
+$ date -u
+$ msl -d Ubuntu -e date -u
+```
+
+MSL corrects the shared Linux clock when the VM starts, after the Mac wakes and when the host clock changes. Every running distribution receives the same correction. `timedatectl` can still report NTP inactive because MSL uses the virtual hardware clock rather than a distribution's network time service.
+
+Older MSL builds can retain a large clock offset ([#38](https://github.com/onexay/msl/issues/38)). Update MSL, save your work, then run `msl --shutdown` and reopen a distribution. Shutdown stops all distributions and their running programs.
+
+If the problem persists, check `msld.log` for `clock: synchronization failed` and report the UTC comparison and `msl --version`. A custom kernel needs a working RTC driver and the sysfs RTC interface.
+
 ## Files
 
 **`~/.msl/distros` is empty.** The folders there are mounts that exist only while the VM runs. Start any distribution, for example with `msl -e true`, and they come back.

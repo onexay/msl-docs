@@ -51,6 +51,14 @@ Everything starts on demand and stops when it's idle:
 
 `msl -t <distro>` stops one distribution now, and `msl --shutdown` stops all of them and the VM. Both timeouts are set in `~/.mslconfig`. See [Advanced settings configuration]({{< relref "/docs/concepts/msl-config" >}}).
 
+## Time
+
+Every distribution shares the VM's Linux system clock. MSL corrects that clock from the Mac's virtual hardware clock when the VM starts, after macOS wakes and when the host clock changes. This works without network access or a time service inside each distribution.
+
+The hardware clock has one-second resolution. MSL leaves differences below two seconds alone to avoid unnecessary clock jumps. Distributions can display different time zones while sharing the same underlying time.
+
+If the time is wrong, see [Clock differences]({{< relref "/docs/troubleshooting#clock-differences" >}}).
+
 ## Memory
 
 The VM gets 50% of the Mac's memory by default (`memory` in `~/.mslconfig`). Memory the VM has used goes back to macOS only when the VM stops, not while it runs: Virtualization.framework doesn't return freed guest memory to macOS ([#37](https://github.com/onexay/msl/issues/37)). WSL's `autoMemoryReclaim` is accepted and has no effect.
