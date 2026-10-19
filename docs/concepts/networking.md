@@ -1,6 +1,6 @@
 ---
 title: Networking considerations
-sidebar_position: 4
+sidebar_position: 5
 description: How MSL distributions reach the network, share localhost with macOS, resolve names through macOS, and reach servers on the Mac.
 ---
 
@@ -32,7 +32,7 @@ $ python3 -m http.server 8000      # in a distribution
 $ curl http://localhost:8000       # on macOS
 ```
 
-MSL watches the TCP ports that Linux programs listen on and opens the same ports on macOS's `127.0.0.1` and `::1`. Forwarding stops when the program stops listening. UDP isn't forwarded. The connections go through `msl-portd`, a process that runs only while a port is forwarded, as WSL's `wslrelay.exe` does.
+MSL watches the TCP ports that Linux programs listen on and opens the same ports on macOS's `127.0.0.1` and `::1`. Forwarding stops when the program stops listening. UDP isn't forwarded. The connections go through ***msl-portd***, a process that runs only while a port is forwarded, as WSL's `wslrelay.exe` does.
 
 - **Port already in use on macOS.** If a macOS program already uses the port, MSL skips it and logs it in `~/Library/Application Support/msl/msld.log`. Stop the macOS program, or use another port in Linux.
 - **Other users on the Mac.** Forwarded ports are on the Mac's loopback address, so any user logged in to the same Mac can connect to them, as with WSL's localhost forwarding.
@@ -60,7 +60,7 @@ Name lookups go through macOS's own resolver, so they give the same answers as o
 
 ## Proxy settings
 
-With `autoProxy = true` (the default), each new distro session gets the Mac's enabled HTTP and HTTPS proxy settings and proxy exceptions. MSL sets `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY`, with lowercase equivalents. Applications that support proxy environment variables can use them. Explicit environment variables passed to `msl` take precedence. Existing sessions keep the environment they started with.
+With `autoProxy = true` (the default), each new distro session gets the Mac's enabled HTTP and HTTPS proxy settings and proxy exceptions. MSL sets `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY`, with lowercase equivalents. Applications that support proxy environment variables can use them. Explicit environment variables passed to ***msl*** take precedence. Existing sessions keep the environment they started with.
 
 If the Mac has a proxy auto-configuration (PAC) URL enabled, MSL passes it as `MSL_PAC_URL` and `WSL_PAC_URL`. MSL does not evaluate the PAC file; applications must support and use the URL themselves. A proxy or PAC URL on the Mac's loopback address is skipped because loopback inside a distro refers to the distro itself. Set `autoProxy = false` in `~/.mslconfig` to turn off this behavior.
 

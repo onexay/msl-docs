@@ -1,6 +1,6 @@
 ---
 title: File access and permissions
-sidebar_position: 3
+sidebar_position: 4
 description: How Linux permissions and ownership work on macOS files under /mnt/macos, and on distribution files seen from macOS in ~/.msl/distros.
 ---
 

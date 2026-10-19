@@ -1,6 +1,6 @@
 ---
 title: Run Linux GUI apps
-sidebar_position: 7
+sidebar_position: 8
 description: MSL doesn't run Linux GUI apps. How to work with graphical tools from a distribution instead.
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Get started using VS Code with MSL
-sidebar_position: 2
+sidebar_position: 3
 description: Use the MSL extension to open folders inside a Linux distribution from VS Code, VS Code Insiders, VSCodium or Cursor on macOS.
 ---
 
@@ -65,16 +65,16 @@ Servers you start in the distribution are forwarded automatically. They appear i
 
 ## How it connects
 
-VS Code's WSL extension works only on Windows, because it calls `wsl.exe`. Remote - SSH would work with MSL, but it needs an SSH server in every distribution and a network port on macOS. The MSL extension connects VS Code to its server through MSL's own service and the VM's internal channel instead. It uses no SSH and opens no network port on macOS.
+VS Code's WSL extension works only on Windows, because it calls ***wsl***. Remote - SSH would work with MSL, but it needs an SSH server in every distribution and a network port on macOS. The MSL extension connects VS Code to its server through MSL's own service and the VM's internal channel instead. It uses no SSH and opens no network port on macOS.
 
 To connect to a remote machine, an extension needs VS Code's remote-resolver API. VS Code keeps that API "proposed": only Microsoft's own remote extensions may use it unless you enable it for an extension in `argv.json`. That's the change `--manage-ide` makes, and it's why the extension isn't on the Marketplace.
 
 ## Which msl the extension runs
 
-The extension looks for `msl` in this order:
+The extension looks for ***msl*** in this order:
 
 1. The `msl.path` setting, if it's set.
-2. The `msl` that last ran `msl --manage-ide --install`. It records its path in `~/Library/Application Support/msl/cli-path`, so any install location works.
+2. The ***msl*** that last ran `msl --manage-ide --install`. It records its path in `~/Library/Application Support/msl/cli-path`, so any install location works.
 3. `~/.local/bin/msl`, then `/usr/local/bin/msl`, then `PATH`.
 
 ## Troubleshooting
@@ -85,7 +85,7 @@ The extension writes its log to **Output › MSL**.
 : The extension didn't start. **Output › Log (Extension Host)** shows `CANNOT use API proposal: resolvers`. Run `msl --manage-ide`, or add `enable-proposed-api` to `argv.json` yourself with **Preferences: Configure Runtime Arguments**. Then quit the IDE with ⌘Q.
 
 **"msl --list --verbose --json exited with 255"**
-: The extension found an `msl` older than 0.1.3. Run `msl --manage-ide --install` with the `msl` you want, or set `msl.path`.
+: The extension found an ***msl*** older than 0.1.3. Run `msl --manage-ide --install` with the ***msl*** you want, or set `msl.path`.
 
 **`bash: warning: setlocale: … cannot change locale` in the terminal**
 : The VS Code Server started without the distribution's locale. MSL 0.1.9 and later start it with the locale from `/etc/default/locale`. After updating, reload the window or run `msl --shutdown`.

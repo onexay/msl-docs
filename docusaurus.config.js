@@ -1,5 +1,17 @@
+const fs = require('fs');
+
+const mslReleaseNotes = fs.readFileSync(
+  `${__dirname}/docs/release-notes/msl.md`,
+  'utf8',
+);
+const latestMslVersion = mslReleaseNotes.match(/^## (v\d+\.\d+\.\d+(?:[-+][\w.-]+)?)$/m)?.[1];
+
+if (!latestMslVersion) {
+  throw new Error('Could not find the latest MSL version in docs/release-notes/msl.md');
+}
+
 const config = {
-  title: 'MSL documentation',
+  title: 'MSL',
   tagline: 'Linux distributions on macOS, the way WSL runs them on Windows.',
   favicon: 'img/favicon.ico',
   url: 'https://onexay.github.io',
@@ -50,7 +62,7 @@ const config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'MSL documentation',
+      title: 'MSL',
       logo: {
         alt: 'MSL',
         src: 'img/logo.png',
@@ -65,6 +77,11 @@ const config = {
         {
           href: 'https://github.com/onexay/msl',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          to: '/docs/install/install/',
+          label: `MSL ${latestMslVersion}`,
           position: 'right',
         },
       ],

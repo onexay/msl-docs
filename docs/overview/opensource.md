@@ -10,7 +10,7 @@ MSL is open source and developed on GitHub. Its code is split across four reposi
 
 | Repository | What it contains |
 |---|---|
-| [onexay/msl](https://github.com/onexay/msl) | The `msl` command and the `msld` service (Swift), the guest init and agent that run inside the VM (Rust), the installer, and MSL releases |
+| [onexay/msl](https://github.com/onexay/msl) | The ***msl*** command and the ***msld*** service (Swift), the guest init and agent that run inside the VM (Rust), the installer, and MSL releases |
 | [onexay/msl-kernel](https://github.com/onexay/msl-kernel) | The Linux kernel configuration and build scripts, and kernel releases |
 | [onexay/msl-vscode-extension](https://github.com/onexay/msl-vscode-extension) | The VS Code extension, and its releases |
 | [onexay/msl-docs](https://github.com/onexay/msl-docs) | This documentation site |

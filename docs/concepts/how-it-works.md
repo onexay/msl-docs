@@ -1,6 +1,6 @@
 ---
 title: How MSL works
-sidebar_position: 6
+sidebar_position: 1
 description: The parts of MSL, how distributions share one lightweight VM, when things start and stop, and where MSL keeps its state on macOS.
 ---
 
@@ -19,11 +19,11 @@ msl (command)  ──▶  msld (background service, one per macOS user)
                  └─ Debian   (its own init and processes)
 ```
 
-- **`msl`** is the command you run. It takes `wsl.exe`'s arguments and passes each request to `msld`. A command's input and output go straight between `msl` and the VM: `msld` starts the command and reports its exit code but doesn't carry its data, so a large or stuck command doesn't slow down the others.
-- **`msld`** is a background process that runs as your macOS user. It's a LaunchAgent that launchd starts when the first `msl` command connects, and it stays until you log out or `msl --update` replaces it. It isn't a login item, and it needs no administrator rights. When you log out, restart or shut down the Mac, `msld` stops the distributions, unmounts and flushes their disks, and powers the VM off before it exits; launchd gives it up to 30 seconds.
-- **`msl-portd`** carries the connections to [forwarded ports](./networking.md#localhost), like WSL's `wslrelay.exe`. `msld` starts it when the first port is forwarded, and it exits after the last one closes.
-- **`msl-fileviewd`** carries the files of `~/.msl/distros` between macOS's NFS client and the VM, and checks each request. It runs while the VM does.
-- **The VM** runs MSL's Linux kernel. `msld` starts it when a distribution first needs it.
+- ***msl*** is the command you run. It takes ***wsl***'s arguments and passes each request to ***msld***. A command's input and output go straight between ***msl*** and the VM: ***msld*** starts the command and reports its exit code but doesn't carry its data, so a large or stuck command doesn't slow down the others.
+- ***msld*** is a background process that runs as your macOS user. It's a LaunchAgent that launchd starts when the first ***msl*** command connects, and it stays until you log out or `msl --update` replaces it. It isn't a login item, and it needs no administrator rights. When you log out, restart or shut down the Mac, ***msld*** stops the distributions, unmounts and flushes their disks, and powers the VM off before it exits; launchd gives it up to 30 seconds.
+- ***msl-portd*** carries the connections to [forwarded ports](./networking.md#localhost), like WSL's `wslrelay.exe`. ***msld*** starts it when the first port is forwarded, and it exits after the last one closes.
+- ***msl-fileviewd*** carries the files of `~/.msl/distros` between macOS's NFS client and the VM, and checks each request. It runs while the VM does.
+- **The VM** runs MSL's Linux kernel. ***msld*** starts it when a distribution first needs it.
 - **Each distribution** runs inside the VM with its own init: MSL's own, or systemd if you [turn it on](./systemd.md).
 
 ## What distributions share
@@ -39,14 +39,14 @@ Distributions are isolated from each other with Linux namespaces, as in WSL 2.
 
 Because a distribution is a set of namespaces rather than a VM, it starts in milliseconds once the VM is up. Isolation between distributions is the same as in WSL 2: good enough to keep them from getting in each other's way, but weaker than separate VMs.
 
-Every distribution's disk (up to 19) is attached to the VM when it starts, and Virtualization.framework serves it, so `msld` never handles disk I/O. Virtualization.framework can't add a disk to a running VM: a disk that appears while the VM runs makes `msld` restart the VM if no distribution is running, and otherwise the VM mounts it through the Mac file share until it next restarts. See [Manage disk space](../how-to/disk-space.md).
+Every distribution's disk (up to 19) is attached to the VM when it starts, and Virtualization.framework serves it, so ***msld*** never handles disk I/O. Virtualization.framework can't add a disk to a running VM: a disk that appears while the VM runs makes ***msld*** restart the VM if no distribution is running, and otherwise the VM mounts it through the Mac file share until it next restarts. See [Manage disk space](../how-to/disk-space.md).
 
 ## Starting and stopping
 
 Everything starts on demand and stops when it's idle:
 
-1. The first `msl` command starts `msld`, which starts the VM and then the distribution.
-2. A distribution stops 15 seconds after its last `msl` session ends: a shell, a command, or a VS Code connection (`instanceIdleTimeout`). Services running inside don't keep it up.
+1. The first ***msl*** command starts ***msld***, which starts the VM and then the distribution.
+2. A distribution stops 15 seconds after its last ***msl*** session ends: a shell, a command, or a VS Code connection (`instanceIdleTimeout`). Services running inside don't keep it up.
 3. The VM stops 60 seconds after the last distribution does (`vmIdleTimeout`).
 
 `msl -t <distro>` stops one distribution now, and `msl --shutdown` stops all of them and the VM. Both timeouts are set in `~/.mslconfig`. See [Advanced settings configuration](./msl-config.md).
@@ -57,7 +57,7 @@ Every distribution shares the VM's Linux system clock. MSL corrects that clock f
 
 The hardware clock has one-second resolution. MSL leaves differences below two seconds alone to avoid unnecessary clock jumps. Distributions can display different time zones while sharing the same underlying time.
 
-If the time is wrong, see [Clock differences]({{< relref "/docs/troubleshooting#clock-differences" >}}).
+If the time is wrong, see [Clock differences](../troubleshooting.md#clock-differences).
 
 ## Memory
 

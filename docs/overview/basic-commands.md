@@ -1,10 +1,10 @@
 ---
 title: Basic commands for MSL
 sidebar_position: 3
-description: Reference for the msl command, which takes the same arguments as wsl.exe.
+description: Reference for the msl command and its WSL options.
 ---
 
-`msl` takes `wsl.exe`'s arguments and prints the same messages, so commands from WSL instructions work with `msl` in place of `wsl`. Run these in a macOS terminal. For the full list of options, run `msl --help`.
+***msl*** takes ***wsl***'s arguments and prints the same messages, so commands from WSL instructions work with ***msl*** in place of `wsl`. Run these in a macOS terminal. For the full list of options, run `msl --help`.
 
 ## Install
 
@@ -62,7 +62,7 @@ Accepted for compatibility. Only version 2 is available.
 $ msl --set-default <Distribution Name>
 ```
 
-Sets the distribution that `msl` runs when you don't name one. Also `msl -s <Distribution Name>`.
+Sets the distribution that ***msl*** runs when you don't name one. Also `msl -s <Distribution Name>`.
 
 ## Start in your home directory
 
@@ -70,7 +70,7 @@ Sets the distribution that `msl` runs when you don't name one. Also `msl -s <Dis
 $ msl ~
 ```
 
-Starts a shell in your Linux home directory. Without `~`, `msl` starts in the macOS directory you ran it from, under `/mnt/macos`. `--cd <Directory>` starts in any Linux directory.
+Starts a shell in your Linux home directory. Without `~`, ***msl*** starts in the macOS directory you ran it from, under `/mnt/macos`. `--cd <Directory>` starts in any Linux directory.
 
 ## Run a specific Linux distribution
 
@@ -262,4 +262,4 @@ Removes MSL and its VS Code setup, and keeps your distributions and settings.
 
 ## Not available on macOS
 
-These `wsl.exe` options have no macOS equivalent: `--system`, `--enable-wsl1`, `--inbox`, and WSL 1. `--set-sparse` is accepted, and disks are always sparse.
+These ***wsl*** options have no macOS equivalent: `--system`, `--enable-wsl1`, `--inbox`, and WSL 1. `--set-sparse` is accepted, and disks are always sparse.

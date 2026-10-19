@@ -4,7 +4,7 @@ sidebar_position: 7
 description: Read MSL's state from scripts, editors and CI with --json on --list, --status and --version.
 ---
 
-WSL's commands print text meant for people. MSL prints the same text, and adds `--json` to its query commands so scripts don't have to parse tables. This is an MSL addition; without `--json`, the output is exactly `wsl.exe`'s.
+WSL's commands print text meant for people. MSL prints the same text, and adds `--json` to its query commands so scripts don't have to parse tables. This is an MSL addition; without `--json`, the output is exactly ***wsl***'s.
 
 | Command | JSON |
 |---|---|
@@ -44,7 +44,7 @@ fi
 - **`"schema": 1`** at the top level. It changes only for breaking changes. New fields can appear at any time, so ignore fields you don't know.
 - **camelCase field names.** A field with no known value is left out rather than set to `null`. For example, `uptimeMs` is missing when the VM is stopped.
 - **Raw numbers:** sizes in bytes, times in milliseconds. A timeout of `-1` means "never".
-- **Exit codes are `wsl.exe`'s.** `--json` changes the format, never the exit code. `msl --list --json` with nothing installed fails with exit code 255, as `wsl --list` does. With nothing running, `--running --json` prints an empty list and exits 0.
+- Exit codes are ***wsl***'s. `--json` changes the format, never the exit code. `msl --list --json` with nothing installed fails with exit code 255, as `wsl --list` does. With nothing running, `--running --json` prints an empty list and exits 0.
 - **Errors go to stderr** as a JSON object, and stdout stays empty. The `code` is always included:
 
   ```json
@@ -117,4 +117,4 @@ See [Advanced settings configuration](../concepts/msl-config.md) for the setting
 {"commit": "3af5916", "kernel": "6.18.15-msl-76f230e", "macos": "27.0.0", "msl": "0.1.7", "prefix": "/Users/you/.local", "schema": 1}
 ```
 
-`msl` is the plain version, for comparing; the text output adds the commit (`0.1.7+3af5916`). `commit` ends in `.dirty` for a build with uncommitted changes. `prefix` is where MSL is installed, and is missing for a development build.
+***msl*** is the plain version, for comparing; the text output adds the commit (`0.1.7+3af5916`). `commit` ends in `.dirty` for a build with uncommitted changes. `prefix` is where MSL is installed, and is missing for a development build.

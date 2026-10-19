@@ -19,7 +19,7 @@ Start with the tools below, then look for your problem in the sections that foll
 
 ## Installation
 
-**`msl: command not found` right after installing.** The installer adds MSL's `bin` directory to `PATH` in your shell's startup file (`~/.zshrc`, `~/.bash_profile`, `~/.config/fish/config.fish` or `~/.profile`). Open a new terminal so the change applies. If you installed with `--no-path`, run `msl` by its full path, for example `~/.local/bin/msl`.
+**`msl: command not found` right after installing.** The installer adds MSL's `bin` directory to `PATH` in your shell's startup file (`~/.zshrc`, `~/.bash_profile`, `~/.config/fish/config.fish` or `~/.profile`). Open a new terminal so the change applies. If you installed with `--no-path`, run ***msl*** by its full path, for example `~/.local/bin/msl`.
 
 **`msl needs macOS 27 or later`.** MSL requires macOS 27 or later on Apple silicon. Check your version with `sw_vers -productVersion`; to run MSL, upgrade macOS and follow [Install MSL](./install/install.md).
 
@@ -31,7 +31,7 @@ Start with the tools below, then look for your problem in the sections that foll
 
 **A program fails with page-size errors, or won't start.** MSL's kernel uses 16 KiB memory pages, like the Mac itself, because 4 KiB pages in the VM hit a Virtualization.framework problem that corrupts memory when macOS runs short of it ([#48](https://github.com/onexay/msl/issues/48)). `getconf PAGESIZE` shows `16384`. Current distributions work with this, including allocators such as jemalloc. A program built on the assumption of 4 KiB pages (for example with `--with-lg-page=12`) fails to start or to map files on any 16 KiB or 64 KiB Arm Linux. Use your distribution's package, or rebuild the program without that assumption.
 
-**A server, database or container stops when I close the terminal.** A distribution stops about 15 seconds after its last `msl` session ends. Only `msl` sessions count as activity (shells, `msl -e` commands, VS Code connections), not services running in the distribution, even under systemd. To keep distributions running, set this in `~/.mslconfig` and run `msl --shutdown` so it applies:
+**A server, database or container stops when I close the terminal.** A distribution stops about 15 seconds after its last ***msl*** session ends. Only ***msl*** sessions count as activity (shells, `msl -e` commands, VS Code connections), not services running in the distribution, even under systemd. To keep distributions running, set this in `~/.mslconfig` and run `msl --shutdown` so it applies:
 
 ```ini
 [general]
@@ -42,7 +42,7 @@ See [systemd](./concepts/systemd.md) and [Advanced settings configuration](./con
 
 **A `~/.mslconfig` change has no effect.** VM settings apply the next time the VM starts. `msl --status` lists changes that are still pending; `msl --shutdown` stops the VM so the next command starts it with them.
 
-**"msld is shutting down".** macOS is logging out or restarting, or `msld` was stopped (`launchctl bootout`). It stops the distributions and flushes their disks, which takes a few seconds; run the command again after that. To see whether launchd runs `msld`: `launchctl print gui/$(id -u)/dev.msl.msld`.
+**"msld is shutting down".** macOS is logging out or restarting, or ***msld*** was stopped (`launchctl bootout`). It stops the distributions and flushes their disks, which takes a few seconds; run the command again after that. To see whether launchd runs ***msld***: `launchctl print gui/$(id -u)/dev.msl.msld`.
 
 **MSL uses more memory than the distributions need.** Virtualization.framework doesn't give memory back to macOS while the VM runs, so it returns only when the VM stops: after `vmIdleTimeout` with nothing running, or with `msl --shutdown`. `autoMemoryReclaim` has no effect on macOS. [#37](https://github.com/onexay/msl/issues/37) explains why. To cap what the VM can take, set `memory` in `~/.mslconfig`.
 

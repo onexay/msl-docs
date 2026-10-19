@@ -4,7 +4,7 @@ sidebar_position: 1
 description: MSL, the Modern Subsystem for Linux, runs Linux distributions on macOS the way WSL runs them on Windows.
 ---
 
-MSL, the Modern Subsystem for Linux, runs a Linux environment on your Mac without a separate virtual machine to set up and manage. The `msl` command is `wsl.exe` for macOS: it takes the same arguments, prints the same output and returns the same exit codes. MSL needs Apple silicon and macOS 27 or later.
+MSL, the Modern Subsystem for Linux, runs a Linux environment on your Mac without a separate virtual machine to set up and manage. The ***msl*** command is ***wsl*** for macOS: it takes the same arguments, prints the same output and returns the same exit codes. MSL needs Apple silicon and macOS 27 or later.
 
 Teams split across Windows and macOS usually end up with two developer setups, two sets of instructions and two sets of bugs. With WSL on Windows and MSL on macOS, everyone develops in the same Linux distribution, from the same image, with the same commands, scripts and `wsl.conf`.
 
@@ -27,8 +27,8 @@ MSL is open source. See [MSL open source code](./opensource.md).
 
 MSL runs a Linux kernel in one lightweight utility VM, using only Apple's Virtualization.framework. Each distribution runs inside that VM with its own `init` and its own mount, PID, UTS and cgroup namespaces, as in WSL 2. The distributions share the VM's kernel, memory, CPUs and network, so they have one IP address and one `localhost` between them.
 
-Because a distribution is a set of namespaces rather than a VM of its own, starting one doesn't boot a VM. An idle distribution stops after 15 seconds, and the VM stops 60 seconds after the last distribution does, handing its memory back to macOS. `msld` itself stays running, idle, until you log out.
+Because a distribution is a set of namespaces rather than a VM of its own, starting one doesn't boot a VM. An idle distribution stops after 15 seconds, and the VM stops 60 seconds after the last distribution does, handing its memory back to macOS. ***msld*** itself stays running, idle, until you log out.
 
-On macOS, `msl` talks to `msld`, a per-user service that the first `msl` command starts. `msld` runs the VM and keeps the list of distributions. MSL installs no kernel extension or login item; launchd starts `msld` on demand through a LaunchAgent. [How MSL works](../concepts/how-it-works.md) goes into more detail.
+On macOS, ***msl*** talks to ***msld***, a per-user service that the first ***msl*** command starts. ***msld*** runs the VM and keeps the list of distributions. MSL installs no kernel extension or login item; launchd starts ***msld*** on demand through a LaunchAgent. [How MSL works](../concepts/how-it-works.md) goes into more detail.
 
 MSL is an independent project. It isn't affiliated with or endorsed by Microsoft or Apple.

@@ -1,6 +1,6 @@
 ---
 title: Get started with databases on MSL
-sidebar_position: 4
+sidebar_position: 5
 description: Install PostgreSQL, SQLite and other databases in an MSL distribution, run them as services, and connect from macOS.
 ---
 
@@ -67,7 +67,7 @@ MySQL, MariaDB, Redis and other servers packaged by your distribution install th
 
 ## Keep a database running
 
-A distribution stops 15 seconds after its last `msl` session ends: the last shell, `msl -e` command or VS Code window. A running database doesn't keep it running, so closing your last terminal stops the database cleanly with the distribution. It starts again with the distribution.
+A distribution stops 15 seconds after its last ***msl*** session ends: the last shell, `msl -e` command or VS Code window. A running database doesn't keep it running, so closing your last terminal stops the database cleanly with the distribution. It starts again with the distribution.
 
 To keep it running with no terminal open, turn off the idle stop in `~/.mslconfig` on macOS:
 

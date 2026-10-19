@@ -1,5 +1,6 @@
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './index.module.css';
 
 const features = [
@@ -58,6 +59,8 @@ function TerminalPreview() {
 }
 
 export default function Home() {
+  const logoUrl = useBaseUrl('img/logo.png');
+
   return (
     <Layout
       title="WSL Linux distributions on macOS"
@@ -66,7 +69,7 @@ export default function Home() {
       <main className={styles.main}>
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>Linux on macOS</p>
+            <img className={styles.heroLogo} src={logoUrl} alt="MSL logo" />
             <h1>WSL Linux environment, on Mac.</h1>
             <p className={styles.lede}>
               Run the WSL Linux distributions and commands your team already knows,

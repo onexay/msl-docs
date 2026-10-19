@@ -1,6 +1,6 @@
 ---
 title: Set up an MSL development environment
-sidebar_position: 1
+sidebar_position: 2
 description: Best practices for setting up a development environment in an MSL distribution, from your Linux user account to your editor, Git and databases.
 ---
 
@@ -29,7 +29,7 @@ The first time a distribution starts, its own setup asks you to create a Linux u
 
 - The account belongs to that distribution only. It has nothing to do with your macOS account, and each distribution you install asks again.
 - Nothing appears on screen while you type the password. That's normal.
-- The account becomes the distribution's default user, so `msl` opens a shell as that user.
+- The account becomes the distribution's default user, so ***msl*** opens a shell as that user.
 - It can run administrative commands with `sudo`.
 
 Some distributions' setup scripts mention Windows ("Provisioning the new WSL instance"). That's their stock text, and MSL skips the steps that need Windows.
@@ -75,7 +75,7 @@ See [Import any Linux distribution](../how-to/use-custom-distro.md) and [Build a
 
 ## Set up your terminal
 
-MSL works in any macOS terminal, such as Terminal or iTerm2. Run `msl` to open a shell in the default distribution, starting in the macOS directory you ran it from. `msl ~` starts in your Linux home directory instead, and `msl -d <Distro>` opens another distribution.
+MSL works in any macOS terminal, such as Terminal or iTerm2. Run ***msl*** to open a shell in the default distribution, starting in the macOS directory you ran it from. `msl ~` starts in your Linux home directory instead, and `msl -d <Distro>` opens another distribution.
 
 Interactive programs work as they do in any Linux terminal: window resizes and Ctrl-C reach the Linux process.
 
@@ -111,7 +111,7 @@ See [Get started with Linux containers on MSL](./msl-containers.md).
 
 ## Basic MSL commands
 
-You manage distributions from a macOS terminal with `msl`, which takes the same arguments as WSL's `wsl.exe`. A command after the options runs in Linux, and pipes work in both directions:
+You manage distributions from a macOS terminal with ***msl***, which takes the same arguments as ***wsl***. A command after the options runs in Linux, and pipes work in both directions:
 
 ```console
 $ msl uname -a                 # run a Linux command from macOS

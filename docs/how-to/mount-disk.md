@@ -52,4 +52,4 @@ The image is attached to the VM as a USB disk, and Linux doesn't flush writes to
 
 ## Physical disks
 
-MSL also accepts a macOS disk device such as `/dev/disk4`. `msld` runs as your user, though, and macOS lets only administrators open raw disks, so this normally fails with "Administrator access is needed to mount a disk." Mounting physical disks and USB drives isn't supported yet; copy the data into an image file, or use the drive from macOS and copy files across through `/mnt/macos`. See [Connect USB devices](./connect-usb.md).
+MSL also accepts a macOS disk device such as `/dev/disk4`. ***msld*** runs as your user, though, and macOS lets only administrators open raw disks, so this normally fails with "Administrator access is needed to mount a disk." Mounting physical disks and USB drives isn't supported yet; copy the data into an image file, or use the drive from macOS and copy files across through `/mnt/macos`. See [Connect USB devices](./connect-usb.md).

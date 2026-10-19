@@ -71,7 +71,7 @@ MSL release · 8 October 2026 · [GitHub release](https://github.com/onexay/msl/
 
 **Changed**
 
-- **Breaking:** MSL requires macOS 27 or later. Its GPU device is available on macOS 27; on older versions, the installer, `msl`, `msld` and `msl --update` stop with a clear message.
+- **Breaking:** MSL requires macOS 27 or later. Its GPU device is available on macOS 27; on older versions, the installer, ***msl***, ***msld*** and `msl --update` stop with a clear message.
 - Kernel and VS Code extension pins accept SemVer release tags while continuing to support existing pins.
 - `msl --version` and development VSIX versions show plain SemVer. JSON version output retains the MSL commit, and the kernel's `uname -r` includes its short source hash.
 - Build, install, fetch and end-to-end scripts now live in `scripts/`. The root `install.sh` remains the public installer entry point.

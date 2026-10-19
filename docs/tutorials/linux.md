@@ -1,6 +1,6 @@
 ---
 title: Get started with Linux and Bash
-sidebar_position: 9
+sidebar_position: 1
 description: A short introduction to the Linux command line in an MSL distribution, for people new to Linux.
 ---
 
@@ -16,7 +16,7 @@ $ msl ~                  # starting in your Linux home directory
 $ msl -d Debian          # another distribution
 ```
 
-Type `exit`, or press Ctrl-D, to leave. To run a single command without opening a shell, put it after `msl`: `msl ls -la`.
+Type `exit`, or press Ctrl-D, to leave. To run a single command without opening a shell, put it after ***msl***: `msl ls -la`.
 
 ## Find your way around
 

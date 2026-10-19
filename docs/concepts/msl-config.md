@@ -1,6 +1,6 @@
 ---
 title: Advanced settings configuration
-sidebar_position: 2
+sidebar_position: 3
 description: Configure the MSL VM with ~/.mslconfig and each distribution with /etc/wsl.conf, the same files and keys WSL uses.
 ---
 
@@ -20,7 +20,7 @@ A `.wslconfig` from Windows works as `~/.mslconfig` without changes, and a distr
 Settings are read when something starts, not while it runs.
 
 - **`/etc/wsl.conf`**: stop the distribution with `msl -t <distro>`, then start it again by running any command in it. `[user] default` is the exception: it applies to the next command you run.
-- **`~/.mslconfig`**: run `msl --shutdown`. The next `msl` command starts the VM with the new settings.
+- **`~/.mslconfig`**: run `msl --shutdown`. The next ***msl*** command starts the VM with the new settings.
 
 You don't have to wait for anything to time out. `msl --status` shows the settings the VM is running with, and lists any `~/.mslconfig` changes that are still waiting for a restart:
 
@@ -28,7 +28,7 @@ You don't have to wait for anything to time out. `msl --status` shows the settin
 $ msl --status
 ```
 
-If you do nothing, a distribution stops 15 seconds after its last `msl` command ends (`instanceIdleTimeout`), and the VM stops 60 seconds after the last distribution does (`vmIdleTimeout`).
+If you do nothing, a distribution stops 15 seconds after its last ***msl*** command ends (`instanceIdleTimeout`), and the VM stops 60 seconds after the last distribution does (`vmIdleTimeout`).
 
 ## wsl.conf
 
@@ -90,7 +90,7 @@ Section: `[user]`
 
 | Key | Value | Default | Notes |
 |---|---|---|---|
-| `default` | string | The user created at first run | The user that `msl` commands run as when you don't pass `-u`. If the user doesn't exist, MSL falls back to the distribution's default user. |
+| `default` | string | The user created at first run | The user that ***msl*** commands run as when you don't pass `-u`. If the user doesn't exist, MSL falls back to the distribution's default user. |
 
 `msl --manage <distro> --set-default-user <user>` sets the default user from macOS instead.
 
@@ -157,7 +157,7 @@ Section: `[general]`
 
 | Key | Value | Default | Notes |
 |---|---|---|---|
-| `instanceIdleTimeout` | number | `15000` | Milliseconds a distribution keeps running after its last `msl` command or VS Code connection ends. Services and containers running inside don't count as activity. `-1` keeps distributions running until you stop them, and so keeps the VM and its memory too. See [systemd](./systemd.md#keep-services-running). |
+| `instanceIdleTimeout` | number | `15000` | Milliseconds a distribution keeps running after its last ***msl*** command or VS Code connection ends. Services and containers running inside don't count as activity. `-1` keeps distributions running until you stop them, and so keeps the VM and its memory too. See [systemd](./systemd.md#keep-services-running). |
 
 ### Experimental settings
 
@@ -189,11 +189,11 @@ instanceIdleTimeout = 60000
 
 ## Environment variables
 
-These are set on macOS, in the shell you run `msl` from.
+These are set on macOS, in the shell you run ***msl*** from.
 
 | Variable | Effect |
 |---|---|
 | `MSL_CONFIG` | Path of the VM settings file, instead of `~/.mslconfig`. |
 | `MSLENV` | macOS variables to pass into Linux. See [Share environment variables with MSLENV](./filesystems.md#share-environment-variables-with-mslenv). |
-| `MSL_ERROR_CODES=1` | Adds a wsl.exe-style `Error code:` line to error messages. |
+| `MSL_ERROR_CODES=1` | Adds a ***wsl***-style `Error code:` line to error messages. |
 | `MSL_DISTRIBUTION_LIST_URL` | A distribution list to use instead of Microsoft's, for `msl --list --online` and `msl --install`. |

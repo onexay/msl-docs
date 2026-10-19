@@ -1,6 +1,6 @@
 ---
 title: Use systemd to manage services
-sidebar_position: 5
+sidebar_position: 6
 description: Turn on systemd in an MSL distribution, manage services with systemctl, and keep services running when no terminal is open.
 ---
 
@@ -53,11 +53,11 @@ A service listening on a TCP port is reachable from macOS on `localhost`. See [N
 
 ## Keep services running
 
-A distribution stops when nothing uses it: 15 seconds after its last `msl` session ends (`instanceIdleTimeout`). Only `msl` sessions count as activity: shells, commands run with `msl`, and VS Code windows connected to the distribution. Services and containers running inside don't. When the distribution stops, its services stop with it, and their ports stop answering on macOS.
+A distribution stops when nothing uses it: 15 seconds after its last ***msl*** session ends (`instanceIdleTimeout`). Only ***msl*** sessions count as activity: shells, commands run with ***msl***, and VS Code windows connected to the distribution. Services and containers running inside don't. When the distribution stops, its services stop with it, and their ports stop answering on macOS.
 
 To keep services up:
 
-- **Keep a session open.** Leave a terminal with `msl` running, or a VS Code window connected to the distribution. The distribution stays up for as long as that session lasts.
+- **Keep a session open.** Leave a terminal with ***msl*** running, or a VS Code window connected to the distribution. The distribution stays up for as long as that session lasts.
 - **Turn the idle stop off.** Set `instanceIdleTimeout = -1` in `~/.mslconfig`, then run `msl --shutdown`. Distributions then run until you stop them with `msl -t <distro>` or `msl --shutdown`.
 
 ```ini

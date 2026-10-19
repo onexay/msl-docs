@@ -1,6 +1,6 @@
 ---
 title: Get started with Linux containers on MSL
-sidebar_position: 5
+sidebar_position: 6
 description: Run Docker Engine inside an MSL distribution with systemd, and reach published container ports from macOS.
 ---
 
@@ -28,7 +28,7 @@ $ sudo apt install docker.io
 $ sudo usermod -aG docker $USER      # run docker without sudo
 ```
 
-Close the shell and open a new one with `msl` so the group change applies. Then check that the service is running:
+Close the shell and open a new one with ***msl*** so the group change applies. Then check that the service is running:
 
 ```console
 $ systemctl is-active docker
@@ -50,7 +50,7 @@ Open `http://localhost:8080` in a browser on macOS. See [Networking consideratio
 
 ## Keep containers running
 
-A distribution stops 15 seconds after its last `msl` session ends: the last shell, `msl -e` command or VS Code window. Running containers and services don't keep it running, so closing your last terminal stops your containers too.
+A distribution stops 15 seconds after its last ***msl*** session ends: the last shell, `msl -e` command or VS Code window. Running containers and services don't keep it running, so closing your last terminal stops your containers too.
 
 To keep containers running, either keep a terminal or VS Code window open, or turn off the idle stop in `~/.mslconfig` on macOS:
 

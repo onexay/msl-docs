@@ -69,7 +69,7 @@ $ msl --list --verbose
 $ msl
 ```
 
-This opens a shell in your default distribution, in the macOS directory you ran `msl` from, which Linux sees under `/mnt/macos`. `msl ~` starts in your Linux home directory instead.
+This opens a shell in your default distribution, in the macOS directory you ran ***msl*** from, which Linux sees under `/mnt/macos`. `msl ~` starts in your Linux home directory instead.
 
 ## Next steps
 

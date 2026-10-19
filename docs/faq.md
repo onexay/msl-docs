@@ -8,7 +8,7 @@ description: Answers to common questions about MSL, the Modern Subsystem for Lin
 
 ### What is MSL?
 
-MSL, the Modern Subsystem for Linux, runs Linux distributions on macOS the way WSL runs them on Windows. The `msl` command takes `wsl.exe`'s arguments and prints the same output, and MSL runs the same distribution images that WSL does. See [What is MSL?](./overview/about.md).
+MSL, the Modern Subsystem for Linux, runs Linux distributions on macOS the way WSL runs them on Windows. The ***msl*** command takes ***wsl***'s arguments and prints the same output, and MSL runs the same distribution images that WSL does. See [What is MSL?](./overview/about.md).
 
 ### Who is MSL for?
 
@@ -24,7 +24,7 @@ Keep the project in your Linux home directory, open it in VS Code with **MSL: Co
 
 ### Why use MSL rather than Linux in a regular VM?
 
-MSL keeps one lightweight VM for all your distributions and manages it for you. The VM starts on demand and stops on its own when nothing is running, and starting a distribution is fast because it creates namespaces in the running VM instead of booting a new one. You also get what a plain VM leaves you to set up: your macOS files in Linux, Linux files in Finder, `localhost` forwarding, DNS through macOS, and the `wsl.exe` command line.
+MSL keeps one lightweight VM for all your distributions and manages it for you. The VM starts on demand and stops on its own when nothing is running, and starting a distribution is fast because it creates namespaces in the running VM instead of booting a new one. You also get what a plain VM leaves you to set up: your macOS files in Linux, Linux files in Finder, `localhost` forwarding, DNS through macOS, and the ***wsl*** command line.
 
 ### Which Macs does MSL run on?
 
@@ -58,7 +58,7 @@ Every distribution sees the macOS filesystem at `/mnt/macos`, the way WSL shows 
 
 ### How do I use a macOS file with a Linux program?
 
-Open it under `/mnt/macos`, or run `msl` from the macOS directory the file is in: `msl` starts in the same directory, under `/mnt/macos`. For example, from a macOS terminal:
+Open it under `/mnt/macos`, or run ***msl*** from the macOS directory the file is in: ***msl*** starts in the same directory, under `/mnt/macos`. For example, from a macOS terminal:
 
 ```console
 $ cd ~/Downloads
@@ -98,7 +98,7 @@ The distribution must be running for the server to answer: see [Why does my serv
 
 ### Why does my server stop when I close the terminal?
 
-A distribution stops about 15 seconds (`instanceIdleTimeout`) after its last `msl` session ends. Only `msl` sessions count as activity: shells, `msl -e` commands and VS Code connections. Services and background processes don't, even under systemd, so a database, a web server or a container stops with the distribution. To keep distributions running, turn the idle stop off in `~/.mslconfig`, then run `msl --shutdown` so the change applies:
+A distribution stops about 15 seconds (`instanceIdleTimeout`) after its last ***msl*** session ends. Only ***msl*** sessions count as activity: shells, `msl -e` commands and VS Code connections. Services and background processes don't, even under systemd, so a database, a web server or a container stops with the distribution. To keep distributions running, turn the idle stop off in `~/.mslconfig`, then run `msl --shutdown` so the change applies:
 
 ```ini
 [general]
@@ -177,7 +177,7 @@ Yes. MSL reads `/etc/msl.conf`, falling back to `/etc/wsl.conf`, and supports th
 
 ### Can I use MSL in production?
 
-MSL is built for development on your own Mac, not for serving production workloads. It manages the VM for you: a distribution stops about 15 seconds after its last `msl` session ends, even with services still running in it, and the VM stops a minute after the last distribution does. You can turn these timeouts off (`instanceIdleTimeout` and `vmIdleTimeout`, where `-1` means never), but the environment is still tied to your macOS login, the Linux kernel comes with MSL, and every distribution has full access to your macOS files. A disk added while another distribution was running is also, until the VM restarts, mounted through the Mac file share, where `fsync` doesn't reach the SSD right away. See [Durability](./how-to/disk-space.md#durability).
+MSL is built for development on your own Mac, not for serving production workloads. It manages the VM for you: a distribution stops about 15 seconds after its last ***msl*** session ends, even with services still running in it, and the VM stops a minute after the last distribution does. You can turn these timeouts off (`instanceIdleTimeout` and `vmIdleTimeout`, where `-1` means never), but the environment is still tied to your macOS login, the Linux kernel comes with MSL, and every distribution has full access to your macOS files. A disk added while another distribution was running is also, until the VM restarts, mounted through the Mac file share, where `fsync` doesn't reach the SSD right away. See [Durability](./how-to/disk-space.md#durability).
 
 ## Project
 

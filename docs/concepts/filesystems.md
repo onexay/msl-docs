@@ -1,6 +1,6 @@
 ---
 title: Working across file systems
-sidebar_position: 1
+sidebar_position: 2
 description: Where to keep files, how macOS and Linux see each other's files, and how to mix macOS and Linux commands with MSL.
 ---
 
@@ -75,7 +75,7 @@ $ git log --oneline | msl -e wc -l       # macOS git, Linux wc
 $ msl ls -la > listing.txt               # the file is written on macOS
 ```
 
-The command line after `msl` is passed to Linux as it is, so paths in it must be Linux paths:
+The command line after ***msl*** is passed to Linux as it is, so paths in it must be Linux paths:
 
 ```console
 $ msl -e ls -la /proc/cpuinfo
@@ -88,7 +88,7 @@ WSL can run Windows programs from Linux (`notepad.exe`) and adds Windows directo
 
 That keeps a distribution a plain Linux system. Build tools such as `npm`, `node-gyp` and `configure` find only Linux compilers and libraries, so what you build is always a Linux build, even in a folder under `/mnt/macos`. It also means a Linux program can't start macOS programs on your behalf.
 
-To combine the two, run the macOS side from a macOS terminal and call Linux with `msl`, as in the examples above. `[interop]` settings in `/etc/wsl.conf` are accepted and ignored.
+To combine the two, run the macOS side from a macOS terminal and call Linux with ***msl***, as in the examples above. `[interop]` settings in `/etc/wsl.conf` are accepted and ignored.
 
 ## Share environment variables with MSLENV
 

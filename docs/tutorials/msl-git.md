@@ -1,6 +1,6 @@
 ---
 title: Get started using Git on MSL
-sidebar_position: 3
+sidebar_position: 4
 description: Install and configure Git in an MSL distribution, authenticate to GitHub and other hosts, and choose where to keep your repositories.
 ---
 

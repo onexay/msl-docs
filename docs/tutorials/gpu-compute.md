@@ -1,6 +1,6 @@
 ---
 title: GPU acceleration
-sidebar_position: 6
+sidebar_position: 7
 description: MSL doesn't give Linux distributions access to the Mac's GPU yet. What to use instead, and where the work is tracked.
 ---
 

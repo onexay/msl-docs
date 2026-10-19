@@ -1,6 +1,6 @@
 ---
 title: Install Node.js on MSL
-sidebar_position: 8
+sidebar_position: 9
 description: Install Node.js in an MSL distribution with nvm or the distribution's packages, and run dev servers you can open on macOS.
 ---
 
