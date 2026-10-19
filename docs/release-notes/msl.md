@@ -7,6 +7,16 @@ description: The current MSL release and its changes.
 
 Update MSL to the current release with `msl --update`. These notes follow the release notes published with each GitHub release.
 
+## v0.1.6
+
+MSL release · 19 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.6)
+
+## What's Changed
+* Add MSL branding to the README by @onexay in https://github.com/onexay/msl/pull/45
+
+
+**Full Changelog**: https://github.com/onexay/msl/compare/v0.1.5...v0.1.6
+
 ## v0.1.5
 
 MSL release · 18 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.5)
