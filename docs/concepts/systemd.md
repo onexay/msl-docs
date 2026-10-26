@@ -35,7 +35,7 @@ $ systemctl is-system-running          # "running", or "degraded" if a unit fail
 $ systemctl list-units --type=service
 ```
 
-MSL reports a systemd distribution as running, and runs your command in it, only once systemd has started. The first start can take a few seconds longer than without systemd.
+MSL reports a systemd distribution as running, and runs your command in it, only once systemd has finished booting (`systemctl is-system-running` reports `running` or `degraded`), or after `[boot] initTimeout` passes (10 seconds by default). The first start can take a few seconds longer than without systemd.
 
 Some units assume Windows or a real console. MSL masks them each time the distribution starts: Ubuntu's `wsl-pro-service.service` (which talks to a Windows agent), `console-getty.service` and `getty@tty1.service`. The masks live in `/run`, so the image isn't changed. MSL also masks systemd's default network `.link` file so the network interface stays `eth0`, unless you have your own in `/etc/systemd/network`.
 

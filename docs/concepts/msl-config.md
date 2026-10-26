@@ -55,6 +55,7 @@ Section: `[boot]`
 |---|---|---|---|
 | `systemd` | boolean | `false` | Runs systemd as the distribution's init. Needs `/sbin/init` in the image. |
 | `command` | string | none | A command that runs as root each time the distribution starts, through `/bin/sh -c`. It runs in the background; startup doesn't wait for it. With systemd, it runs once systemd is up. |
+| `initTimeout` | number | `10000` | With systemd, how many milliseconds MSL waits for it to finish booting (`systemctl is-system-running` reports `running` or `degraded`) before the first command runs. MSL stops waiting after this time even if systemd isn't up. Values above `50000` count as `50000`. |
 
 ### Automount settings
 
@@ -94,9 +95,19 @@ Section: `[user]`
 
 `msl --manage <distro> --set-default-user <user>` sets the default user from macOS instead.
 
+### Time settings
+
+Section: `[time]`
+
+| Key | Value | Default | Notes |
+|---|---|---|---|
+| `useWindowsTimezone` | boolean | `true` | `true` makes MSL set the distribution's time zone to the Mac's each time it starts, by pointing `/etc/localtime` at `/usr/share/zoneinfo/<zone>`. An image without that zone keeps its own `/etc/localtime`. `false` leaves `/etc/localtime` alone. |
+
+The key keeps WSL's name so a `wsl.conf` from Windows works unchanged. MSL writes the link into the distribution's disk, so it stays until the next start changes it. A time zone change on the Mac shows up after the distribution restarts.
+
 ### Settings not available
 
-WSL's `[boot] protectBinfmt` and `initTimeout`, and the `[gpu]` and `[time]` sections, have no effect in MSL.
+WSL's `[boot] protectBinfmt` and the `[gpu]` section have no effect in MSL.
 
 ### Example wsl.conf
 

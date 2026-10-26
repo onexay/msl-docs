@@ -173,7 +173,7 @@ The locale must be installed in the distribution. Open a new session afterwards.
 
 ### Can I use wsl.conf?
 
-Yes. MSL reads `/etc/msl.conf`, falling back to `/etc/wsl.conf`, and supports the `[boot]`, `[user]`, `[automount]` and `[network]` settings that apply on macOS. `[interop]` settings are read and ignored. See [Advanced settings configuration](./concepts/msl-config.md).
+Yes. MSL reads `/etc/msl.conf`, falling back to `/etc/wsl.conf`, and supports the `[boot]`, `[user]`, `[automount]`, `[network]` and `[time]` settings that apply on macOS. `[interop]` settings are read and ignored. See [Advanced settings configuration](./concepts/msl-config.md).
 
 ### Can I use MSL in production?
 
