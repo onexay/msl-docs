@@ -24,10 +24,13 @@ jobs:
       sha: ${{ steps.publish.outputs.sha }}
     runs-on: ubuntu-24.04
     steps:
+      # The deploy key is a bypass actor on the main ruleset, so this job can
+      # push release notes without a pull request.
       - uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
+          ssh-key: ${{ secrets.RELEASE_NOTES_DEPLOY_KEY }}
       - name: Update pages from published releases
         run: python3 scripts/update-release-notes.py
       - name: Commit release note updates
