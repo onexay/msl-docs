@@ -7,6 +7,24 @@ description: The current MSL release and its changes.
 
 Update MSL to the current release with `msl --update`. These notes follow the release notes published with each GitHub release.
 
+## v0.1.7
+
+MSL release · 28 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.7)
+
+## What's Changed
+* Correct clock after distro startup by @onexay in https://github.com/onexay/msl/pull/47
+* Wait for systemd to finish booting before the first session by @gajeshbhat in https://github.com/onexay/msl/pull/49
+* Bump the rust group in /guest with 3 updates by @dependabot[bot] in https://github.com/onexay/msl/pull/36
+* Bump the swift group with 3 updates by @dependabot[bot] in https://github.com/onexay/msl/pull/37
+* Bump the rust group in /guest with 2 updates by @dependabot[bot] in https://github.com/onexay/msl/pull/50
+* Bump the swift group with 2 updates by @dependabot[bot] in https://github.com/onexay/msl/pull/51
+* Use the Mac's timezone in distros by @gajeshbhat in https://github.com/onexay/msl/pull/53
+
+## New Contributors
+* @gajeshbhat made their first contribution in https://github.com/onexay/msl/pull/49
+
+**Full Changelog**: https://github.com/onexay/msl/compare/v0.1.6...v0.1.7
+
 ## v0.1.6
 
 MSL release · 19 October 2026 · [GitHub release](https://github.com/onexay/msl/releases/tag/v0.1.6)
