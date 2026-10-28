@@ -55,7 +55,7 @@ Everything starts on demand and stops when it's idle:
 
 Every distribution shares the VM's Linux system clock. MSL corrects that clock from the Mac's virtual hardware clock when the VM starts, after macOS wakes and when the host clock changes. This works without network access or a time service inside each distribution.
 
-The hardware clock has one-second resolution. MSL leaves differences below two seconds alone to avoid unnecessary clock jumps. Distributions can display different time zones while sharing the same underlying time.
+The hardware clock has one-second resolution. MSL leaves differences below two seconds alone to avoid unnecessary clock jumps. Distributions can display different time zones while sharing the same underlying time. By default a distribution uses the Mac's time zone; see [Time settings](./msl-config.md#time-settings).
 
 If the time is wrong, see [Clock differences](../troubleshooting.md#clock-differences).
 
